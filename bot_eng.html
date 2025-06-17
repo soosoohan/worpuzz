@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WORPUZZ BOT</title>
+  <title>WORPUZZMATE</title>
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -23,10 +24,11 @@
       margin-bottom: 20px;
       color: #064d4d;
     }
-    .game-container {
+    .game-area {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
     }
     .game-button {
       font-size: 18px;
@@ -42,6 +44,12 @@
       background-color: #1d9e95;
       transform: scale(1.05);
     }
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
     .cell {
       width: 50px;
       height: 50px;
@@ -49,56 +57,95 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
+      font-size: 20px;
       cursor: pointer;
       user-select: none;
       border: 1px solid #999;
     }
-    .revealed { background-color: #fff; }
-    .word-owned-user { background-color: #b7d5f2; }
-    .word-owned-npc { background-color: #f6c28b; }
-    #userScore, #npcScore {
-      width: 160px;
-      min-height: 300px;
-      padding: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      border: 2px solid #333;
-    }
-    #userScore { background-color:  #b7d5f2; }
-    #npcScore { background-color: #f6c28b; }
-    #currentTurn {
-      font-size: 20px;
-      margin: 10px;
-      color: #056762;
-    }
-    #game {
-      display: grid;
-      grid-template-columns: repeat(12, 50px);
-      grid-gap: 5px;
-      padding: 10px;
-      border: 2px solid #333;
-      background-color: #eee;
-    }
+
+
+.revealed { background-color: #fff; }
+.word-owned-user { background-color: #b7d5f2; }
+.word-owned-computer { background-color: #f6c28b; }
+#userScore, #computerScore {
+  width: 160px;
+  min-height: 300px;
+  padding: 10px;
+  font-size: 20px;
+  border: 2px solid #333;
+}
+#userScore { background-color: #b7d5f2; }
+#computerScore { background-color: #f6c28b; }
+#currentTurn {
+  font-size: 20px;
+  margin: 10px;
+  color: #056762;
+}
+#game {
+  display: grid;
+  grid-template-columns: repeat(12, 50px);
+  grid-gap: 5px;
+  padding: 10px;
+  border: 2px solid #333;
+  background-color: #eee;
+}
+.hidden {
+  display: none;
+}
+
+
   </style>
 </head>
+
 <body>
-  <h1 id="game-title">게임 제목</h1>
-  <p id="game-desc">게임 설명</p>
-  <div class="game-container">
+
+<h1 id="game-title">게임 제목</h1>
+<p id="game-desc">게임 설명</p>
+<div class="game-container">
+
+  <div id="gameSection" class="hidden">
     <div id="currentTurn"></div>
-    <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 15px;">
-      <div id="npcScore"><h2>COMPUTER:</h2></div>
-      <div id="game"></div>
-      <div id="userScore"><h2>USER:</h2></div>
-    </div>
-    <div class="controls">
-      <button id="retryBtn" class="game-button">RETRY</button>
-      <button onclick="location.href='index.html'" class="game-button">HOME</button>
-    </div>
+
+
+<div class="container">
+  <div id="computerScore">
+    <h2>COMPUTER:</h2>
+  </div>
+  <div id="game"></div>
+  <div id="userScore">
+    <h2>USER:</h2>
+  </div>
+</div>
+
+<div class="controls">
+  <button id="retryBtn" class="game-button">RETRY</button>
+  <button onclick="location.href='index.html'" class="game-button">HOME</button>
+</div>
+
+
   </div>
 
+</div>
+
 <script>
+
+const gridSize = 12;
+const totalCells = gridSize * gridSize;
+
+// 🎮 게임 상태 변수들
+let board, revealed, wordMap, foundWords, currentPlayer, foundBy, words, usedIndexes;
+let clovers = new Set(), daisies = new Set();
+let resultShown = false;
+let npcTimeoutId = null;
+
+// 📦 DOM 요소 연결
+const gameEl = document.getElementById('game');
+const userScoreEl = document.getElementById('userScore');
+const computerScoreEl = document.getElementById('computerScore');
+const retryBtn = document.getElementById('retryBtn');
+const gameSection = document.getElementById('gameSection');
+const currentTurnEl = document.getElementById('currentTurn');
+
 window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const poolFile = urlParams.get('pool');
@@ -111,270 +158,423 @@ window.onload = () => {
     .then(res => res.json())
     .then(data => {
       document.getElementById('game-title').textContent = data.title || '게임 제목';
-      document.getElementById('game-desc').innerHTML = (data.description || '').replace(/\n/g, '<br>');
+      const rawText = data.description || '게임 설명';
+      const htmlText = rawText.replace(/\n/g, '<br>');
+      document.getElementById('game-desc').innerHTML = htmlText;
+
       words = [];
       for (let length in data.words) {
         const count = data.wordCount[length] || 0;
         words.push(...getRandomSample(data.words[length], count));
       }
+      console.log('총 단어 수:', words.length);
+      console.log('단어 목록:', words);
+      
+      // 게임 섹션 보이기 및 초기화
+      gameSection.classList.remove('hidden');
       init();
+    })
+    .catch(err => {
+      document.body.innerHTML = '<p>❌ 워드풀 로딩 중 오류 발생: ' + err.message + '</p>';
     });
+};
 
-  const gridSize = 12;
-  const totalCells = gridSize * gridSize;
-  let board, revealed, wordMap, foundWords, currentPlayer, foundBy, words, usedIndexes;
-  let clovers = new Set(), daisies = new Set();
-  let resultShown = false;
-  let npcTimeoutId = null;
+// 🔀 배열을 무작위로 섞는 함수 (Fisher–Yates 알고리즘)
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
 
-  const gameEl = document.getElementById('game');
-  const userScoreEl = document.getElementById('userScore');
-  const npcScoreEl = document.getElementById('npcScore');
-  const retryBtn = document.getElementById('retryBtn');
-  const currentTurnEl = document.getElementById('currentTurn');
+// 🎲 배열에서 원하는 개수만큼 랜덤 추출하는 함수
+function getRandomSample(arr, count) {
+  if (count >= arr.length) return [...arr];
+  const shuffled = [...arr];
+  shuffle(shuffled);
+  return shuffled.slice(0, count);
+}
 
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+function init() {
+  board = Array(totalCells).fill(null);
+  revealed = Array(totalCells).fill(false);
+  wordMap = {};
+  foundWords = new Set();
+  foundBy = { user: [], computer: [] };
+  currentPlayer = 'user';
+  usedIndexes = new Set();
+  clovers.clear();
+  daisies.clear();
+  resultShown = false;
+
+  // 타이머 정리
+  if (npcTimeoutId) {
+    clearTimeout(npcTimeoutId);
+    npcTimeoutId = null;
+  }
+
+  createGrid();
+  
+  // 방향 검증과 함께 단어 배치
+  if (placeAllWordsWithVariety()) {
+    console.log('모든 단어가 성공적으로 배치되었습니다 (3방향 사용)');
+  } else {
+    console.log('방향 검증 실패 - 기본 배치로 진행');
+    // 기본 배치 로직
+    let placedWords = [];
+    shuffle(words);
+    
+    for (let word of words) {
+      let placed = false;
+      for (let attempt = 0; attempt < 500; attempt++) {
+        if (placeWord(word)) {
+          placedWords.push(word);
+          placed = true;
+          break;
+        }
+      }
+      if (!placed) {
+        console.log('배치 실패한 단어:', word);
+      }
     }
+    console.log('실제 배치된 단어 수:', placedWords.length);
   }
+  
+  placeDaisies(3);
+  placeClovers(7);
+  fillEmptyCells();
+  updateScore();
+  updateTurnDisplay();
+  
+  checkGameEnd();
+}
 
-  function getRandomSample(arr, count) {
-    if (count >= arr.length) return [...arr];
-    const shuffled = [...arr];
-    shuffle(shuffled);
-    return shuffled.slice(0, count);
+function createGrid() {
+  gameEl.innerHTML = '';
+  for (let i = 0; i < totalCells; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.onclick = () => { if (!resultShown) handleClick(i); };
+    gameEl.appendChild(cell);
   }
+}
 
-  function init() {
-    board = Array(totalCells).fill(null);
-    revealed = Array(totalCells).fill(false);
-    wordMap = {};
-    foundWords = new Set();
-    foundBy = { user: [], npc: [] };
-    currentPlayer = 'user';
-    usedIndexes = new Set();
-    clovers.clear();
-    daisies.clear();
-    resultShown = false;
-
-    if (!placeAllWordsWithVariety()) {
-      shuffle(words);
-      for (let word of words) placeWord(word);
-    }
-
-    placeDaisies(3);
-    placeClovers(7);
-    fillEmptyCells();
-    createGrid();
-    updateScore();
-    updateTurnDisplay();
-    checkGameEnd();
+function canPlaceWord(word, x, y, dx, dy) {
+  for (let i = 0; i < word.length; i++) {
+    let nx = x + dx * i, ny = y + dy * i;
+    if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) return false;
+    
+    let idx = ny * gridSize + nx;
+    if (board[idx] && board[idx] !== word[i]) return false;
+    if (usedIndexes.has(idx)) return false;
   }
+  return true;
+}
 
-  function createGrid() {
-    gameEl.innerHTML = '';
-    for (let i = 0; i < totalCells; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'cell';
-      cell.onclick = () => { if (!resultShown) handleClick(i); };
-      gameEl.appendChild(cell);
-    }
-  }
-
-  function canPlaceWord(word, x, y, dx, dy) {
-    for (let i = 0; i < word.length; i++) {
-      let nx = x + dx * i, ny = y + dy * i;
-      if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) return false;
-      let idx = ny * gridSize + nx;
-      if (board[idx] && board[idx] !== word[i]) return false;
-      if (usedIndexes.has(idx)) return false;
-    }
-    return true;
-  }
-
-  function placeWord(word) {
-    const directions = [ { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 } ];
-    const shuffledDirections = directions.sort(() => Math.random() - 0.5);
-    for (let dir of shuffledDirections) {
-      for (let y = 0; y < gridSize; y++) {
-        for (let x = 0; x < gridSize; x++) {
-          if (canPlaceWord(word, x, y, dir.x, dir.y)) {
-            let positions = [];
-            for (let i = 0; i < word.length; i++) {
-              let nx = x + dir.x * i, ny = y + dir.y * i;
-              let idx = ny * gridSize + nx;
-              board[idx] = word[i];
-              usedIndexes.add(idx);
-              positions.push(idx);
-            }
-            wordMap[word] = positions;
-            return true;
+function placeWord(word) {
+  const directions = [
+    { x: 1, y: 0 },   // 가로 (오른쪽)
+    { x: 0, y: 1 },   // 세로 (아래)
+    { x: 1, y: 1 },   // 대각선 (오른쪽 아래)
+  ];
+  
+  const shuffledDirections = directions.sort(() => Math.random() - 0.5);
+ 
+  for (let dir of shuffledDirections) {
+    const startY = Math.floor(Math.random() * gridSize);
+    for (let i = 0; i < gridSize; i++) {
+      const y = (startY + i) % gridSize;
+      for (let x = 0; x < gridSize; x++) {
+        if (canPlaceWord(word, x, y, dir.x, dir.y)) {
+          let positions = [];
+          for (let i = 0; i < word.length; i++) {
+            let nx = x + dir.x * i, ny = y + dir.y * i, idx = ny * gridSize + nx;
+            board[idx] = word[i];
+            usedIndexes.add(idx);
+            positions.push(idx);
           }
+          wordMap[word] = {
+            positions: positions,
+            direction: [dir.x, dir.y]
+          };
+          return true;
         }
       }
     }
-    return false;
   }
+  return false;
+}
 
-  function placeAllWordsWithVariety() {
-    const directionsUsed = new Set();
-    let allPlaced = true;
+function checkDirectionVariety() {
+  let directionCount = {
+    '1,0': 0,    // 가로
+    '0,1': 0,    // 세로
+    '1,1': 0     // 대각선
+  };
+  
+  for (let word in wordMap) {
+    const direction = wordMap[word].direction;
+    const key = direction[0] + ',' + direction[1];
+    if (directionCount.hasOwnProperty(key)) {
+      directionCount[key]++;
+    }
+  }
+  
+  console.log('방향별 사용 횟수:', directionCount);
+  return directionCount['1,0'] > 0 && directionCount['0,1'] > 0 && directionCount['1,1'] > 0;
+}
+
+function placeAllWordsWithVariety() {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  do {
     board = Array(totalCells).fill(null);
     usedIndexes.clear();
     wordMap = {};
-
-    for (let word of words) {
-      const success = placeWord(word);
-      if (!success) {
+    
+    let allPlaced = true;
+    const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+    
+    for (let word of shuffledWords) {
+      if (!placeWord(word)) {
         allPlaced = false;
         break;
       }
     }
-    return allPlaced;
-  }
+    
+    if (allPlaced && checkDirectionVariety()) {
+      console.log(`성공! ${attempts + 1}번째 시도에서 3방향 모두 사용됨`);
+      return true;
+    }
+    
+    attempts++;
+    console.log(`${attempts}번째 시도 실패 - 다시 시도`);
+  } while (attempts < maxAttempts);
+  
+  console.log('최대 시도 횟수 초과 - 기본 배치로 진행');
+  return false;
+}
 
-  function placeClovers(count) {
-    let placed = 0;
-    while (placed < count) {
-      const idx = Math.floor(Math.random() * totalCells);
-      if (!usedIndexes.has(idx) && !clovers.has(idx) && !daisies.has(idx) && isSafeForSpecial(idx)) {
+function placeClovers(count) {
+  let placed = 0;
+  let attempts = 0;
+  while (placed < count && attempts < 1000) {
+    const idx = Math.floor(Math.random() * totalCells);
+    if (!usedIndexes.has(idx) && !clovers.has(idx) && !daisies.has(idx)) {
+      if (isSafeForSpecial(idx)) {
         clovers.add(idx);
         placed++;
       }
     }
+    attempts++;
   }
+  console.log('배치된 클로버 수:', clovers.size);
+}
 
-  function placeDaisies(count) {
-    let placed = 0;
-    while (placed < count) {
-      const idx = Math.floor(Math.random() * totalCells);
-      if (!usedIndexes.has(idx) && !clovers.has(idx) && !daisies.has(idx) && isSafeForSpecial(idx)) {
+function placeDaisies(count) {
+  let placed = 0;
+  let attempts = 0;
+  while (placed < count && attempts < 1000) {
+    const idx = Math.floor(Math.random() * totalCells);
+    if (!usedIndexes.has(idx) && !clovers.has(idx) && !daisies.has(idx)) {
+      if (isSafeForSpecial(idx)) {
         daisies.add(idx);
         placed++;
       }
     }
+    attempts++;
   }
+  console.log('배치된 데이지 수:', daisies.size);
+}
 
-  function isSafeForSpecial(idx) {
-    const x = idx % gridSize;
-    const y = Math.floor(idx / gridSize);
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        const nx = x + dx;
-        const ny = y + dy;
-        if (nx === x && ny === y) continue;
-        if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
-          const nIdx = ny * gridSize + nx;
-          if (clovers.has(nIdx) || daisies.has(nIdx)) return false;
+function isSafeForSpecial(idx) {
+  const x = idx % gridSize;
+  const y = Math.floor(idx / gridSize);
+  
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
+        const nIdx = ny * gridSize + nx;
+        if (clovers.has(nIdx) || daisies.has(nIdx)) {
+          return false;
         }
       }
     }
-    return true;
   }
+  return true;
+}
 
-  function fillEmptyCells() {
-    const filler = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    shuffle(filler);
-    let i = 0;
-    for (let j = 0; j < totalCells; j++) {
-      if (!board[j]) board[j] = filler[i++ % filler.length];
+function fillEmptyCells() {
+  const filler = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  shuffle(filler);
+  let i = 0;
+  for (let j = 0; j < totalCells; j++) {
+    if (!board[j] && !clovers.has(j) && !daisies.has(j)) {
+      board[j] = filler[i++ % filler.length];
     }
   }
+}
 
-  function reveal(index) {
-    if (revealed[index]) return;
-    revealed[index] = true;
-    const cell = gameEl.children[index];
-
-    if (clovers.has(index)) {
-      cell.textContent = '🍀';
-      const directions = [-gridSize, gridSize, -1, 1];
-      for (let d of directions) {
-        const newIdx = index + d;
-        if (newIdx >= 0 && newIdx < totalCells &&
-            (d === -1 || d === 1 ? Math.floor(index / gridSize) === Math.floor(newIdx / gridSize) : true)) {
+function reveal(index) {
+  if (revealed[index]) return;
+  revealed[index] = true;
+  const cell = gameEl.children[index];
+  
+  if (clovers.has(index)) {
+    cell.textContent = '🍀';
+    const directions = [-gridSize, gridSize, -1, 1];
+    for (let d of directions) {
+      const newIdx = index + d;
+      if (newIdx >= 0 && newIdx < totalCells) {
+        if (d === -1 || d === 1) {
+          if (Math.floor(index / gridSize) === Math.floor(newIdx / gridSize)) {
+            reveal(newIdx);
+          }
+        } else {
           reveal(newIdx);
         }
       }
-    } else if (daisies.has(index)) {
-      cell.textContent = '🌼';
-      const x = index % gridSize;
-      const y = Math.floor(index / gridSize);
-      for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
-          if (dx === 0 && dy === 0) continue;
-          const nx = x + dx;
-          const ny = y + dy;
-          if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
-            const nIdx = ny * gridSize + nx;
-            if (!revealed[nIdx]) reveal(nIdx);
-          }
+    }
+  } else if (daisies.has(index)) {
+    cell.textContent = '🌼';
+    const x = index % gridSize;
+    const y = Math.floor(index / gridSize);
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        if (dx === 0 && dy === 0) continue;
+        const nx = x + dx;
+        const ny = y + dy;
+        if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
+          const nIdx = ny * gridSize + nx;
+          if (!revealed[nIdx]) reveal(nIdx);
         }
       }
+    }
+  } else {
+    cell.textContent = board[index];
+  }
+  cell.classList.add('revealed');
+}
+
+function updateScore() {
+  userScoreEl.innerHTML = `<h2>USER:</h2><br>` + foundBy.user.map(w => `✓ ${w}`).join("<br>");
+  computerScoreEl.innerHTML = `<h2>COMPUTER:</h2><br>` + foundBy.computer.map(w => `✓ ${w}`).join("<br>");
+}
+
+function updateTurnDisplay() {
+  if (resultShown) return;
+  const name = currentPlayer === 'user' ? 'USER' : 'COMPUTER';
+  currentTurnEl.textContent = `It is ${name}'s turn.`;
+}
+
+function switchTurn(extra) {
+  if (!extra) {
+    currentPlayer = currentPlayer === 'user' ? 'computer' : 'user';
+  }
+  updateTurnDisplay();
+  
+  // 🤖 컴퓨터 턴이면 자동 플레이
+  if (currentPlayer === 'computer' && !resultShown) {
+    npcTimeoutId = setTimeout(() => {
+      computerMove();
+    }, 1000); // 1초 후 컴퓨터 행동
+  }
+}
+
+// 🤖 컴퓨터 랜덤 클릭 함수
+function computerMove() {
+  if (resultShown) return;
+  
+  // 아직 열리지 않은 셀들 찾기
+  const availableCells = [];
+  for (let i = 0; i < totalCells; i++) {
+    if (!revealed[i]) {
+      availableCells.push(i);
+    }
+  }
+  
+  if (availableCells.length === 0) return;
+  
+  // 랜덤으로 셀 선택
+  const randomIndex = Math.floor(Math.random() * availableCells.length);
+  const selectedCell = availableCells[randomIndex];
+  
+  console.log('컴퓨터가 선택한 셀:', selectedCell);
+  handleClick(selectedCell);
+}
+
+function handleClick(index) {
+  if (revealed[index] || resultShown) return;
+
+  const extra = clovers.has(index) || daisies.has(index);
+  reveal(index);
+  checkWords();
+  checkGameEnd();
+
+  if (!resultShown) {
+    switchTurn(extra);
+  }
+}
+
+function checkWords() {
+  for (let word of Object.keys(wordMap)) {
+    if (foundWords.has(word)) continue;
+    const pos = wordMap[word].positions;
+    if (pos.every(i => revealed[i])) {
+      foundWords.add(word);
+      foundBy[currentPlayer].push(word);
+      pos.forEach(i => {
+        const cell = gameEl.children[i];
+        cell.classList.add(
+          currentPlayer === 'user' ? 'word-owned-user' : 'word-owned-computer'
+        );
+      });
+      updateScore();
+    }
+  }
+}
+
+function checkGameEnd() {
+  const totalWords = Object.keys(wordMap).length;
+  if (foundWords.size >= totalWords && totalWords > 0) {
+    resultShown = true;
+    
+    // 타이머 정리
+    if (npcTimeoutId) {
+      clearTimeout(npcTimeoutId);
+      npcTimeoutId = null;
+    }
+    
+    const userWords = foundBy.user.length;
+    const computerWords = foundBy.computer.length;
+    let winner = '';
+    
+    if (userWords > computerWords) {
+      winner = 'USER WINS!';
+    } else if (computerWords > userWords) {
+      winner = 'COMPUTER WINS!';
     } else {
-      cell.textContent = board[index];
+      winner = 'DRAW!';
     }
-
-    cell.classList.add('revealed');
+    
+    currentTurnEl.textContent = `Game Over! ${winner}`;
+    
+    setTimeout(() => {
+      alert(`Game Over!\n\nUSER: ${userWords} words\nCOMPUTER: ${computerWords} words\n\n${winner}`);
+    }, 500);
   }
+}
 
-  function handleClick(index) {
-    if (revealed[index] || resultShown) return;
-    const extra = clovers.has(index) || daisies.has(index);
-    reveal(index);
-    checkWords();
-    checkGameEnd();
-    if (!resultShown) switchTurn(extra);
-  }
-
-  function switchTurn(extra) {
-    if (!extra) {
-      currentPlayer = currentPlayer === 'user' ? 'npc' : 'user';
-    }
-    updateTurnDisplay();
-  }
-
-  function updateTurnDisplay() {
-    if (resultShown) return;
-    const name = currentPlayer === 'user' ? 'USER' : 'COMPUTER';
-    currentTurnEl.textContent = `It is ${name}'s turn.`;
-  }
-
-  function updateScore() {
-    userScoreEl.innerHTML = `<strong>USER</strong><br><br>` + foundBy.user.map(w => `✓ ${w}`).join("<br>");
-    npcScoreEl.innerHTML = `<strong>COMPUTER</strong><br><br>` + foundBy.npc.map(w => `✓ ${w}`).join("<br>");
-  }
-
-  function checkWords() {
-    for (let word of Object.keys(wordMap)) {
-      if (foundWords.has(word)) continue;
-      const pos = wordMap[word];
-      if (pos.every(i => revealed[i])) {
-        foundWords.add(word);
-        foundBy[currentPlayer].push(word);
-        pos.forEach(i => {
-          const cell = gameEl.children[i];
-          cell.classList.add(currentPlayer === 'user' ? 'word-owned-user' : 'word-owned-npc');
-        });
-        updateScore();
-      }
-    }
-  }
-
-  function checkGameEnd() {
-    const totalWords = Object.keys(wordMap).length;
-    if (foundWords.size >= totalWords && totalWords > 0) {
-      resultShown = true;
-      setTimeout(() => {
-        alert("game over!");
-      }, 500);
-    }
-  }
-
-  retryBtn.onclick = init;
+// 🔄 다시하기 버튼
+retryBtn.onclick = () => {
+  init();
 };
+
 </script>
+
 </body>
 </html>
