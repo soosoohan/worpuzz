@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WORPUZZMATE</title>
+  <title>WORPUZZ-BOT</title>
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -110,11 +110,7 @@
 
 <div class="game-container">
 
-  <div class="start-section">
-    <button id="startBtn" class="game-button">START GAME</button>
-  </div>
-
-  <div id="gameSection" class="hidden">
+  <div id="gameSection">
     <div id="currentTurn"></div>
 
 <div class="game-area">
@@ -156,9 +152,21 @@ document.getElementById(‘game-desc’).innerHTML = htmlText;
   }
   console.log('총 단어 수:', words.length);
   console.log('단어 목록:', words);
+  
+  // 워드풀 로딩 완료 후 게임 자동 시작
+  setTimeout(() => {
+    startGame();
+  }, 100);
 })
 .catch(err => {
-  document.body.innerHTML = '<p>❌ 워드풀 로딩 중 오류 발생: ' + err.message + '</p>';
+  console.error('워드풀 로딩 오류:', err);
+  // 워드풀 로딩 실패 시 기본 단어로 게임 시작
+  words = ['HELLO', 'WORLD', 'GAMES', 'PUZZLE', 'WORDS'];
+  document.getElementById('game-title').textContent = '워드 퍼즐';
+  document.getElementById('game-desc').innerHTML = '단어를 찾아보세요!';
+  setTimeout(() => {
+    startGame();
+  }, 100);
 });
 
 
@@ -172,7 +180,6 @@ const gameEl = document.getElementById(‘game’);
 const player1ScoreEl = document.getElementById(‘player1Score’);
 const player2ScoreEl = document.getElementById(‘player2Score’);
 const retryBtn = document.getElementById(‘retryBtn’);
-const startBtn = document.getElementById(‘startBtn’);
 const gameSection = document.getElementById(‘gameSection’);
 const currentTurnEl = document.getElementById(‘currentTurn’);
 
@@ -191,14 +198,8 @@ return shuffled.slice(0, count);
 }
 
 function startGame() {
-gameSection.classList.remove(‘hidden’);
-startBtn.style.display = ‘none’;
 gameStarted = true;
-
-
 init();
-
-
 }
 
 // 컴퓨터 AI 로직
@@ -602,6 +603,17 @@ init();
 
 startBtn.onclick = startGame;
 retryBtn.onclick = retry;
+
+// 워드풀 파라미터가 없어도 기본 게임 실행
+if (!poolFile) {
+words = [‘HELLO’, ‘WORLD’, ‘GAMES’, ‘PUZZLE’, ‘WORDS’];
+document.getElementById(‘game-title’).textContent = ‘워드 퍼즐’;
+document.getElementById(‘game-desc’).innerHTML = ‘단어를 찾아보세요!’;
+setTimeout(() => {
+startGame();
+}, 100);
+return;
+}
 };
 </script>
 
