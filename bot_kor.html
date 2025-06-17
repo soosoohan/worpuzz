@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WORPUZZMATE</title>
+  <title>WORPUZZBOT</title>
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -111,7 +111,7 @@
 <div class="game-container">
 
   <div class="start-section">
-    <button id="startBtn" class="game-button">START GAME</button>
+    <button id="startBtn" class="game-button">게임 시작</button>
   </div>
 
   <div id="gameSection" class="hidden">
@@ -124,8 +124,8 @@
 </div>
 
 <div class="controls">
-  <button id="retryBtn" class="game-button">RETRY</button>
-  <button onclick="location.href='index.html'" class="game-button">HOME</button>
+  <button id="retryBtn" class="game-button">다시 하기</button>
+  <button onclick="location.href='index.html'" class="game-button">초기 화면</button>
 </div>
 
   </div>
@@ -162,7 +162,7 @@ document.getElementById(‘game-desc’).innerHTML = htmlText;
 });
 
 
-const gridSize = 12;
+const gridSize = 10;
 const totalCells = gridSize * gridSize;
 let board, revealed, wordMap, foundWords, currentPlayer, foundBy, words, usedIndexes;
 let clovers = new Set(), daisies = new Set(), resultShown = false, gameStarted = false;
@@ -455,7 +455,7 @@ return true;
 }
 
 function fillEmptyCells() {
-const filler = ‘ABCDEFGHIJKLMNOPQRSTUVWXYZ’.split(’’);
+const filler = ‘같갛개거건걸것게고괴교국궁그근금기긴까깜깨꺾껴꼼꽁꾸끔난내넘넣네놀놈누뉴는니님다닥대댄더던덩데도동두드득든듣들등디딜딱때땡똑뚫뛰라락란람랐랑래랜러레려력렸로롭르른를리린림마만맛맞맨머먼멀메멘며몰무묻뭘미민바받방버벅번봐봤부붙브블비빈빌빔빠빡빨빼뻥사새생서섭섰세숙쉬슴실싶쌍쓰씌씻아악알았애야어엄업없었엉에여열옛오온올와왔왜우울원위유윤으을음의익인잃있잊작잖잘저전제져좋주줬짜짝찍차착참창채척천청체쳤초출췄취치친카켜코콜크테토트튼폭핀하학한할해햄했행현호혼화환히’.split(’’);
 shuffle(filler);
 let i = 0;
 for (let j = 0; j < totalCells; j++) {
@@ -581,11 +581,11 @@ resultShown = true;
     message += `사용자: ${userWords}개 단어\n\n`;
     
     if (computerWords > userWords) {
-      message += "컴퓨터 승리!";
+      message += "게임 종료!";
     } else if (userWords > computerWords) {
-      message += "사용자 승리!";
+      message += "게임 종료!";
     } else {
-      message += "무승부!";
+      message += "게임 종료!";
     }
     
     alert(message);
