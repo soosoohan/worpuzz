@@ -57,7 +57,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
+      font-size: 20px;
       cursor: pointer;
       user-select: none;
       border: 1px solid #999;
@@ -72,7 +72,6 @@
   min-height: 300px;
   padding: 10px;
   font-size: 20px;
-  font-weight: bold;
   border: 2px solid #333;
 }
 #userScore { background-color: #b7d5f2; }
@@ -84,7 +83,7 @@
 }
 #game {
   display: grid;
-  grid-template-columns: repeat(12, 50px);
+  grid-template-columns: repeat(10, 50px);
   grid-gap: 5px;
   padding: 10px;
   border: 2px solid #333;
@@ -110,17 +109,17 @@
 
 <div class="container">
   <div id="computerScore">
-    <h2>COMPUTER:</h2>
+    <h2>컴퓨터:</h2>
   </div>
   <div id="game"></div>
   <div id="userScore">
-    <h2>USER:</h2>
+    <h2>사용자:</h2>
   </div>
 </div>
 
 <div class="controls">
-  <button id="retryBtn" class="game-button">RETRY</button>
-  <button onclick="location.href='index.html'" class="game-button">HOME</button>
+  <button id="retryBtn" class="game-button">다시 하기</button>
+  <button onclick="location.href='index.html'" class="game-button">초기 화면</button>
 </div>
 
 
@@ -130,7 +129,7 @@
 
 <script>
 
-const gridSize = 12;
+const gridSize = 10;
 const totalCells = gridSize * gridSize;
 
 // 🎮 게임 상태 변수들
@@ -410,7 +409,7 @@ function isSafeForSpecial(idx) {
 }
 
 function fillEmptyCells() {
-  const filler = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const filler = '같갛개거건걸것게고괴교국궁그근금기긴까깜깨꺾껴꼼꽁꾸끔난내넘넣네놀놈누뉴는니님다닥대댄더던덩데도동두드득든듣들등디딜딱때땡똑뚫뛰라락란람랐랑래랜러레려력렸로롭르른를리린림마만맛맞맨머먼멀메멘며몰무묻뭘미민바받방버벅번봐봤부붙브블비빈빌빔빠빡빨빼뻥사새생서섭섰세숙쉬슴실싶쌍쓰씌씻아악알았애야어엄업없었엉에여열옛오온올와왔왜우울원위유윤으을음의익인잃있잊작잖잘저전제져좋주줬짜짝찍차착참창채척천청체쳤초출췄취치친카켜코콜크테토트튼폭핀하학한할해햄했행현호혼화환히'.split('');
   shuffle(filler);
   let i = 0;
   for (let j = 0; j < totalCells; j++) {
@@ -555,14 +554,14 @@ function checkGameEnd() {
     let winner = '';
     
     if (userWords > computerWords) {
-      winner = 'USER WINS!';
+      winner = '게임 종료';
     } else if (computerWords > userWords) {
-      winner = 'COMPUTER WINS!';
+      winner = '게임 종료';
     } else {
-      winner = 'DRAW!';
+      winner = '게임 종료';
     }
     
-    currentTurnEl.textContent = `Game Over! ${winner}`;
+    currentTurnEl.textContent = `게임 종료! ${winner}`;
     
     setTimeout(() => {
       alert(`Game Over!\n\nUSER: ${userWords} words\nCOMPUTER: ${computerWords} words\n\n${winner}`);
