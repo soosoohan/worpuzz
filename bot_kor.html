@@ -134,11 +134,11 @@
 
 <div class="container">
   <div id="computerScore">
-    <h2>컴퓨터:</h2>
+    <h3>컴퓨터:</h3>
   </div>
   <div id="game"></div>
   <div id="userScore">
-    <h2>사용자:</h2>
+    <h3>사용자:</h3>
   </div>
 </div>
 
@@ -486,14 +486,14 @@ function reveal(index) {
 }
 
 function updateScore() {
-  userScoreEl.innerHTML = `<h2>USER:</h2><br>` + foundBy.user.map(w => `✓ ${w}`).join("<br>");
-  computerScoreEl.innerHTML = `<h2>COMPUTER:</h2><br>` + foundBy.computer.map(w => `✓ ${w}`).join("<br>");
+  userScoreEl.innerHTML = `<h3>USER:</h3><br>` + foundBy.user.map(w => `✓ ${w}`).join("<br>");
+  computerScoreEl.innerHTML = `<h3>COMPUTER:</h3><br>` + foundBy.computer.map(w => `✓ ${w}`).join("<br>");
 }
 
 function updateTurnDisplay() {
   if (resultShown) return;
   const name = currentPlayer === 'user' ? 'USER' : 'COMPUTER';
-  currentTurnEl.textContent = `It is ${name}'s turn.`;
+  currentTurnEl.textContent = ` ${name}님의 차례입니다.`;
 }
 
 function switchTurn(extra) {
