@@ -495,9 +495,9 @@ function updateScore() {
 }
 
 function updateTurnDisplay() {
-  if (resultShown) return;
+  if (resultShown) return; // 게임 종료 시 메시지 갱신 차단
 
-  const isKorean = location.href.includes('kor'); // 언어 판별 (URL에 'kor' 포함 시 한글)
+  const isKorean = location.href.includes('kor');
 
   const name = currentPlayer === 'user'
     ? (isKorean ? '사용자' : 'USER')
@@ -507,6 +507,7 @@ function updateTurnDisplay() {
     ? `${name}의 차례입니다.`
     : `It's ${name}'s turn.`;
 }
+
 function switchTurn(extra) {
   if (!extra) {
     currentPlayer = currentPlayer === 'user' ? 'computer' : 'user';
@@ -543,14 +544,13 @@ function computerMove() {
   console.log('컴퓨터가 선택한 셀:', selectedCell);
   handleClick(selectedCell);
 }
-
 function handleClick(index) {
   if (revealed[index] || resultShown) return;
 
   const extra = clovers.has(index) || daisies.has(index);
   reveal(index);
   checkWords();
-  checkGameEnd();
+  checkGameEnd(); // resultShown = true가 먼저 실행됨
 
   if (!resultShown) {
     switchTurn(extra);
@@ -575,29 +575,28 @@ function checkWords() {
   }
 }
 
-
-
 function checkGameEnd() {
   const totalWords = Object.keys(wordMap).length;
   if (foundWords.size >= totalWords && totalWords > 0) {
-    resultShown = true;
-    
-    // 타이머 정리
+    resultShown = true; // ✅ 반드시 가장 먼저
+
+
     if (npcTimeoutId) {
       clearTimeout(npcTimeoutId);
       npcTimeoutId = null;
     }
-    
+
     const userWords = foundBy.user.length;
     const computerWords = foundBy.computer.length;
+    const isKorean = location.href.includes('kor');
+
     let winner = '';
-    
     if (userWords > computerWords) {
-      winner = ' 사용자 승리!';
+      winner = isKorean ? '사용자 승!' : 'USER WINS!';
     } else if (computerWords > userWords) {
-      winner = '컴퓨터 승리!';
+      winner = isKorean ? '컴퓨터 승!' : 'COMPUTER WINS!';
     } else {
-      winner = '무승부!';
+      winner = isKorean ? '무승부!' : 'DRAW!';
     }
 
     currentTurnEl.textContent = isKorean
@@ -612,7 +611,20 @@ function checkGameEnd() {
       }
     }, 500);
   }
-} 
+}
+
+    
+    const userWords = foundBy.user.length;
+    const computerWords = foundBy.computer.length;
+    let winner = '';
+    
+    if (userWords > computerWords) {
+      winner = ' 사용자 승리!';
+    } else if (computerWords > userWords) {
+      winner = '컴퓨터 승리!';
+    } else {
+      winner = '무승부!';
+    }
 
 // 🔄 다시하기 버튼
 retryBtn.onclick = () => {
