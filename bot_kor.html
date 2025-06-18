@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WORPUZZ-BOT</title>
-  <style>
+  <title>워퍼즈봇</title>
+  
+<style>
   body {
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #FFF2EB; /* 전체 배경: 피치 크림톤 */
@@ -120,6 +121,8 @@
     display: none;
   }
 </style>
+
+  
 </head>
 
 <body>
@@ -153,7 +156,6 @@
 </div>
 
 <script>
-
 const gridSize = 10;
 const totalCells = gridSize * gridSize;
 
@@ -178,6 +180,7 @@ window.onload = () => {
     document.body.innerHTML = '<p>❌ 워드풀 파일이 지정되지 않았습니다.</p>';
     return;
   }
+
 
   fetch('wordpools/' + poolFile + '.json')
     .then(res => res.json())
@@ -219,6 +222,7 @@ function getRandomSample(arr, count) {
   shuffle(shuffled);
   return shuffled.slice(0, count);
 }
+
 
 function init() {
   board = Array(totalCells).fill(null);
@@ -434,7 +438,7 @@ function isSafeForSpecial(idx) {
 }
 
 function fillEmptyCells() {
-  const filler = '같갛개거건걸것게고괴교국궁그근금기긴까깜깨꺾껴꼼꽁꾸끔난내넘넣네놀놈누뉴는니님다닥대댄더던덩데도동두드득든듣들등디딜딱때땡똑뚫뛰라락란람랐랑래랜러레려력렸로롭르른를리린림마만맛맞맨머먼멀메멘며몰무묻뭘미민바받방버벅번봐봤부붙브블비빈빌빔빠빡빨빼뻥사새생서섭섰세숙쉬슴실싶쌍쓰씌씻아악알았애야어엄업없었엉에여열옛오온올와왔왜우울원위유윤으을음의익인잃있잊작잖잘저전제져좋주줬짜짝찍차착참창채척천청체쳤초출췄취치친카켜코콜크테토트튼폭핀하학한할해햄했행현호혼화환히'.split('');
+  const filler = '같갛개거건걸것게고괴교국궁그근금기긴까깜깨꺾껴꼼꽁꾸끔난내넘넣네놀놈누뉴는니님다닥대댄더던덩데도동두드득든듣들등디딜딱때땡똑뚫뛰라락란람랐랑래랜러레려력렸로롭르른를리린림마만맛맞맨머먼멀메멘며몰무묻뭘미민바받방버벅번봐봤부붙브블비빈빌빔빠빡빨빼뻥사새생서섭섰세숙쉬슴실싶쌍쓰씌씻아악알았애야어엄업없었엉에여열옛오온올와왔왜우울원위유윤으을음의익인잃있잊작잖잘저전제져좋주줬짜짝찍차착참창채척천청체쳤초출췄취치친카켜코콜크테토트튼폭핀하학한할해햄했행현호혼화환히희'.split('');
   shuffle(filler);
   let i = 0;
   for (let j = 0; j < totalCells; j++) {
@@ -492,16 +496,23 @@ function updateScore() {
 
 function updateTurnDisplay() {
   if (resultShown) return;
-  const name = currentPlayer === 'user' ? '사용자' : '컴퓨터';
-  currentTurnEl.textContent = ` ${name}님의 차례입니다.`;
-}
 
+  const isKorean = location.href.includes('kor'); // 언어 판별 (URL에 'kor' 포함 시 한글)
+
+  const name = currentPlayer === 'user'
+    ? (isKorean ? '사용자' : 'USER')
+    : (isKorean ? '컴퓨터' : 'COMPUTER');
+
+  currentTurnEl.textContent = isKorean
+    ? `${name}의 차례입니다.`
+    : `It's ${name}'s turn.`;
+}
 function switchTurn(extra) {
   if (!extra) {
-    currentPlayer = currentPlayer === 'user' ? '컴퓨터' : '사용자';
+    currentPlayer = currentPlayer === 'user' ? 'computer' : 'user';
   }
   updateTurnDisplay();
-  
+
   // 🤖 컴퓨터 턴이면 자동 플레이
   if (currentPlayer === 'computer' && !resultShown) {
     npcTimeoutId = setTimeout(() => {
@@ -524,6 +535,7 @@ function computerMove() {
   
   if (availableCells.length === 0) return;
   
+
   // 랜덤으로 셀 선택
   const randomIndex = Math.floor(Math.random() * availableCells.length);
   const selectedCell = availableCells[randomIndex];
@@ -563,6 +575,8 @@ function checkWords() {
   }
 }
 
+
+
 function checkGameEnd() {
   const totalWords = Object.keys(wordMap).length;
   if (foundWords.size >= totalWords && totalWords > 0) {
@@ -579,20 +593,26 @@ function checkGameEnd() {
     let winner = '';
     
     if (userWords > computerWords) {
-      winner = '게임 종료';
+      winner = ' 사용자 승리!';
     } else if (computerWords > userWords) {
-      winner = '게임 종료';
+      winner = '컴퓨터 승리!';
     } else {
-      winner = '게임 종료';
+      winner = '무승부!';
     }
-    
-    currentTurnEl.textContent = `게임 종료! ${winner}`;
-    
+
+    currentTurnEl.textContent = isKorean
+      ? `게임 종료! ${winner}`
+      : `Game Over! ${winner}`;
+
     setTimeout(() => {
-      alert(`Game Over!\n\nUSER: ${userWords} words\nCOMPUTER: ${computerWords} words\n\n${winner}`);
+      if (isKorean) {
+        alert(`게임 종료!\n\n사용자: ${userWords}개\n컴퓨터: ${computerWords}개\n\n${winner}`);
+      } else {
+        alert(`Game Over!\n\nUSER: ${userWords} words\nCOMPUTER: ${computerWords} words\n\n${winner}`);
+      }
     }, 500);
   }
-}
+} 
 
 // 🔄 다시하기 버튼
 retryBtn.onclick = () => {
@@ -603,3 +623,5 @@ retryBtn.onclick = () => {
 
 </body>
 </html>
+
+
