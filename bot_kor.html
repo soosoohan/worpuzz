@@ -486,8 +486,8 @@ function reveal(index) {
 }
 
 function updateScore() {
-  userScoreEl.innerHTML = `<h3>USER:</h3><br>` + foundBy.user.map(w => `✓ ${w}`).join("<br>");
-  computerScoreEl.innerHTML = `<h3>COMPUTER:</h3><br>` + foundBy.computer.map(w => `✓ ${w}`).join("<br>");
+  userScoreEl.innerHTML = `<h3>사용자:</h3><br>` + foundBy.user.map(w => `✓ ${w}`).join("<br>");
+  computerScoreEl.innerHTML = `<h3>컴퓨터:</h3><br>` + foundBy.computer.map(w => `✓ ${w}`).join("<br>");
 }
 
 function updateTurnDisplay() {
