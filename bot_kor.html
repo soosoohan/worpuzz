@@ -1,64 +1,57 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <title>워퍼즈봇</title>
-  
-<style>
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: #FFF2EB; /* 전체 배경: 피치 크림톤 */
-    margin: 0;
-    padding: 20px;
-    color: #7A2E2E; /* 따뜻한 브라운 */
-    text-align: center;
-  }
 
-  h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #FF9494; /* 포인트 핑크 */
-  }
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #FFF2EB;
+      margin: 0;
+      padding: 20px;
+      color: #7A2E2E;
+      text-align: center;
+    }
 
-p {
-    font-size: 14px;
-    margin-bottom: 20px;
-    color: #A65A5A; /* 부드러운 브라운 */
-  }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #FF9494;
+    }
 
-  .game-area {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #A65A5A;
+    }
 
-  .game-button {
-    font-size: 18px;
-    background-color: #FFD6BA; /* 살구빛 버튼 */
-    padding: 10px 22px;
-    margin: 8px;
-    color: #7A2E2E;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
+    .game-button {
+      font-size: 18px;
+      background-color: #FFD6BA;
+      padding: 10px 22px;
+      margin: 8px;
+      color: #7A2E2E;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-  .game-button:hover {
-    background-color: #FF9494;
-    color: white;
-    transform: scale(1.05);
-  }
+    .game-button:hover {
+      background-color: #FF9494;
+      color: white;
+      transform: scale(1.05);
+    }
 
-
-  .container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap; /* 📱 폰에서는 줄바꿈 허용 */
+    }
 
     #game {
       display: grid;
@@ -69,107 +62,96 @@ p {
       background-color: #FFF2EB;
     }
 
-  .cell {
-    width: 50px;
-    height: 50px;
-    background-color: #FFFFFF; /* 기본 셀 배경: 베이지 오렌지 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    cursor: pointer;
-    user-select: none;
-    border: 1px solid #DDAA88;
-  }
-
-  .revealed {
-    background-color: #FFFFFF; /* 열린 셀은 흰색 */
-  }
-
-  .word-owned-user {
-    background-color: #FFDCDC; /* 사용자 점유 셀: 연핑크 */
-  }
-
-  .word-owned-computer {
-    background-color: #FFE8CD; /* 컴퓨터 점유 셀: 연오렌지 */
-  }
-
-
-    #scores {
+    .cell {
+      width: 50px;
+      height: 50px;
+      background-color: #FFFFFF;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: center;
       align-items: center;
+      font-size: 24px;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid #DDAA88;
     }
 
-  #userScore, #computerScore {
-    width: 160px;
-    min-height: 300px;
-    padding: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    border: 2px solid #7A2E2E;
-    color: #7A2E2E;
-  }
+    .revealed {
+      background-color: #FFFFFF;
+    }
 
-  #userScore {
-    background-color: #FFDCDC;
-  }
+    .word-owned-user {
+      background-color: #FFDCDC;
+    }
 
-  #computerScore {
-    background-color: #FFE8CD;
-  }
+    .word-owned-computer {
+      background-color: #FFE8CD;
+    }
 
+    #userScore, #computerScore {
+      width: 160px;
+      min-height: 300px;
+      padding: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      border: 2px solid #7A2E2E;
+      color: #7A2E2E;
+    }
 
-  #currentTurn {
-    font-size: 20px;
-    margin: 10px;
-    color: #A65A5A;
-  }
+    #userScore {
+      background-color: #FFDCDC;
+    }
 
-  .hidden {
-    display: none;
-  }
+    #computerScore {
+      background-color: #FFE8CD;
+    }
 
+    #currentTurn {
+      font-size: 20px;
+      margin: 10px;
+      color: #A65A5A;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* 📱 모바일 전용 레이아웃 조정 */
     @media (max-width: 600px) {
-      #scores {
-        flex-direction: row;
-        justify-content: center;
-      }
-
-      #userScore, #computerScore {
-        width: 45%;
-        min-height: auto;
-        text-align: center;
+      .container {
+        flex-direction: column;
+        align-items: center;
       }
 
       #game {
-        grid-template-columns: repeat(10, 1fr);
+        order: 1;
         margin-bottom: 10px;
+        grid-template-columns: repeat(10, 1fr); /* 셀 비율 유지 */
+      }
+
+      #computerScore, #userScore {
+        width: 45%;
+        min-height: auto;
+        order: 2;
+        text-align: center;
+        margin: 5px;
       }
     }
   </style>
 </head>
 
-
 <body>
 
-<h1 id="game-title">게임 제목</h1>
-<p id="game-desc">게임 설명</p>
-<div class="game-container">
+  <h1 id="game-title">게임 제목</h1>
+  <p id="game-desc">게임 설명</p>
 
-  <div id="gameSection" class="hidden">
-    <div id="currentTurn"></div>
+  <div class="game-container">
+    <div id="gameSection" class="hidden">
+      <div id="currentTurn"></div>
 
       <div class="container">
-        <!-- 게임판 먼저 -->
+        <div id="computerScore"><h3>컴퓨터:</h3></div>
         <div id="game"></div>
-
-        <!-- 점수판은 아래에 묶어서 -->
-        <div id="scores">
-          <div id="computerScore"><h3>컴퓨터:</h3></div>
-          <div id="userScore"><h3>사용자:</h3></div>
-        </div>
+        <div id="userScore"><h3>사용자:</h3></div>
       </div>
 
       <div class="controls">
@@ -178,6 +160,7 @@ p {
       </div>
     </div>
   </div>
+
 
 <script>
 const gridSize = 10;
@@ -659,5 +642,4 @@ retryBtn.onclick = () => {
 
 </body>
 </html>
-
 
