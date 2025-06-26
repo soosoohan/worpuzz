@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -120,6 +122,48 @@
   .hidden {
     display: none;
   }
+
+
+@media (max-width: 768px) {
+    h1 {
+      font-size: 2.5em;
+      margin: 15px 0 5px;
+    }
+    p.rule {
+      font-size: 0.9em;
+      margin: 0 10px 15px;
+    }
+    .container {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    #game {
+      width: 95%;
+      max-width: 400px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+    .btn-container {
+      margin: 10px;
+      width: 95%;
+      max-width: 400px;
+      justify-content: center;
+    }
+    button {
+      font-size: 1em;
+      padding: 12px 25px;
+      flex: 1;
+      max-width: 150px;
+    }
+    .score-container {
+      display: flex !important;
+    }
+    #npcScore, #userScore {
+      display: none !important;
+    }
+  }
+
 </style>
 
   
