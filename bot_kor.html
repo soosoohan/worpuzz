@@ -1,3 +1,4 @@
+===수수
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -46,11 +47,11 @@
 
     .container {
       display: flex;
+      flex-direction: row;
       justify-content: center;
       align-items: flex-start;
       gap: 20px;
       margin-bottom: 20px;
-      flex-wrap: wrap; /* 📱 폰에서는 줄바꿈 허용 */
     }
 
     #game {
@@ -87,7 +88,7 @@
       background-color: #FFE8CD;
     }
 
-    #userScore, #computerScore {
+    .scorebox {
       width: 160px;
       min-height: 300px;
       padding: 10px;
@@ -95,6 +96,7 @@
       font-weight: bold;
       border: 2px solid #7A2E2E;
       color: #7A2E2E;
+      text-align: center;
     }
 
     #userScore {
@@ -114,41 +116,24 @@
     .hidden {
       display: none;
     }
-@media (max-width: 768px) {
-  .main-container {
-    flex-direction: column;  /* 기존 row를 column으로 변경 */
-    align-items: center;     /* 가운데 정렬 */
-  }
 
-  .scoreboard {
-    width: 90%;
-    margin-bottom: 10px;
-  }
-
-  .game-grid {
-    width: 100%;
-    max-width: 360px;
-  }
-}
-    /* 📱 모바일 전용 레이아웃 조정 */
-    @media (max-width: 600px) {
+    /* ✅ 모바일 대응 */
+    @media (max-width: 768px) {
       .container {
         flex-direction: column;
         align-items: center;
       }
 
-      #game {
-        order: 1;
-        margin-bottom: 10px;
-        grid-template-columns: repeat(10, 1fr); /* 셀 비율 유지 */
+      .scorebox {
+        width: 90%;
+        min-height: auto;
+        margin: 5px 0;
       }
 
-      #computerScore, #userScore {
-        width: 45%;
-        min-height: auto;
-        order: 2;
-        text-align: center;
-        margin: 5px;
+      #game {
+        grid-template-columns: repeat(10, 1fr);
+        max-width: 100%;
+        margin: 0 auto;
       }
     }
   </style>
@@ -164,9 +149,9 @@
       <div id="currentTurn"></div>
 
       <div class="container">
-        <div id="computerScore"><h3>컴퓨터:</h3></div>
+        <div id="computerScore" class="scorebox"><h3>컴퓨터:</h3></div>
         <div id="game"></div>
-        <div id="userScore"><h3>사용자:</h3></div>
+        <div id="userScore" class="scorebox"><h3>사용자:</h3></div>
       </div>
 
       <div class="controls">
@@ -176,8 +161,8 @@
     </div>
   </div>
 
-
-<script>
+  <script>
+   
 const gridSize = 10;
 const totalCells = gridSize * gridSize;
 
@@ -653,7 +638,7 @@ retryBtn.onclick = () => {
   init();
 };
 
-</script>
+ </script>
 
 </body>
 </html>
