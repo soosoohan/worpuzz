@@ -23,6 +23,7 @@
     color: #FF9494; /* 포인트 핑크 */
   }
 
+
   p {
     font-size: 14px;
     margin-bottom: 20px;
@@ -45,9 +46,10 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
 
-  }
+
 
   .game-button:hover {
     background-color: #FF9494;
@@ -97,6 +99,7 @@ transition: all 0.2s ease;
     color: #7A2E2E;
   }
 
+
   #userScore {
     background-color: #FFDCDC;
   }
@@ -124,7 +127,6 @@ transition: all 0.2s ease;
     display: none;
   }
 
-
 /* 모바일 반응형 디자인 */
 @media (max-width: 768px) {
 body {
@@ -141,33 +143,80 @@ padding: 8px 16px;
 margin: 4px;
 }
 
-/* 모바일에서는 세로 레이아웃으로 변경 */
+/* 컨테이너를 세로 배치로 변경하고 순서 조정 */
 .container {
+display: flex;
 flex-direction: column;
 align-items: center;
 gap: 15px;
 }
 
-/* 게임판 크기 조정 */
+/* 게임판을 먼저 배치 */
 #game {
+order: 1;
 grid-template-columns: repeat(10, 35px);
 grid-gap: 3px;
 padding: 8px;
-margin-bottom: 15px;
+}
+
+/* 점수판들을 게임판 아래로 배치 */
+#userScore {
+order: 2;
+width: 140px;
+min-height: 120px;
+padding: 8px;
+font-size: 16px;
+margin: 0;
+}
+
+#computerScore {
+order: 3;
+width: 140px;
+min-height: 120px;
+padding: 8px;
+font-size: 16px;
+margin: 0;
+}
+
+/* 점수판들을 가로로 나란히 배치하려면 래퍼 사용 */
+.container::after {
+content: ‘’;
+order: 2;
+display: flex;
+gap: 10px;
+justify-content: center;
+width: 100%;
+}
+
+/* 더 나은 방법: 점수판들을 flexbox로 감싸기 */
+.container {
+display: block;
+}
+
+.container > #game {
+display: grid;
+grid-template-columns: repeat(10, 35px);
+grid-gap: 3px;
+padding: 8px;
+margin: 0 auto 20px auto;
+}
+
+/* 점수판들을 아래쪽에 배치 */
+.container > #userScore,
+.container > #computerScore {
+display: inline-block;
+width: 140px;
+min-height: 120px;
+padding: 8px;
+font-size: 16px;
+margin: 5px;
+vertical-align: top;
 }
 
 .cell {
 width: 35px;
 height: 35px;
 font-size: 18px;
-}
-
-/* 점수판을 가로로 배치 */
-#userScore, #computerScore {
-width: 140px;
-min-height: 150px;
-padding: 8px;
-font-size: 16px;
 }
 
 #currentTurn {
@@ -727,5 +776,3 @@ retryBtn.onclick = () => {
 
 </body>
 </html>
-
-
