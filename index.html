@@ -439,6 +439,14 @@ Choose a word pool below to begin the game.</li>
 </div>
 
 <script>
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isPortrait = window.innerHeight > window.innerWidth;
+  const isSmall = window.innerWidth < 800;
+
+  if (isTouchDevice && isPortrait && isSmall) {
+    // 이건 진짜 폰일 확률이 높다!
+    location.href = "https://soosoohan.github.io/worpuzz-legacy/";
+  }
 function toggleLanguage(lang) {
     const isKorean = lang === 'ko';
 
