@@ -54,8 +54,8 @@ The game will continue to be improved and upgraded.
 - 개발 보조 : 챗GPT 
 - 코딩 도움 : 클라우드  
 - 디자인 도움: 네이처 리 <br>
-ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.<br>
- 무단 복제, 배포, 2차 창작을 금합니다.<br>
+<p>ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.<br>
+ 무단 복제, 배포, 2차 창작을 금합니다.</p><br>
 
 - Created and Developed by Soosoo Han  
 - Development Assistant: ChatGPT  
