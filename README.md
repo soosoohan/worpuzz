@@ -45,7 +45,7 @@ Redesigned the original game with pastel colors and uploaded it to ['worpuzz'](h
 
 ---
 
-### 🧪 한수수의 다른 게임들 | Other Games by Soosoo Han
+### 🧪 한수수의  게임들 |  Games by Soosoo Han
 
 - **넘즐 (Numzzle)**  
   수학을 재미있게! 목표 숫자에 가까운 수식을 만드는 게임  
@@ -62,24 +62,34 @@ Redesigned the original game with pastel colors and uploaded it to ['worpuzz'](h
   *Compete to guess or uncover words hidden in the grid*  
   👉 http://soosoohan.github.io/worpuzzmate
 
+- **워퍼즈 (Worpuzz Bot)**  
+  격자 속에 숨어있는 단어를 찾으며 어휘력을 키우는 게임.    
+  *Compete to guess or uncover words hidden in the grid*  
+  👉 http://soosoohan.github.io/worpuzz
+
 - **모음 퀴즈(Moeum Quiz)**  
-    모음과 힌트를 보고 자음을 맞추어 단어나 구절이나 문장을 완성하는 퍼즐 게임     
-  *Guess the missing consonants to complete words, phrases, or sentences using vowels and hints    
+    모음과 힌트를 보고 자음을 맞추어 단어나 구절이나 문장을 완성하는 퍼즐 게임  
+  *Guess the missing consonants to complete words, phrases, or sentences using vowels and hint  
   👉 http://soosoohan.github.io/moeum-quiz
+
+- **넘즐 X(Numzzle X)**  
+    수학 공부를 재미있게! 주어진  숫자카드와 연산기호 카드로 최대값을 만드는 게임  
+   *Make math fun! Create formulas to muximum number*  
+  👉 http://soosoohan.github.io/numzzlex
 
 ---
 ### 👤 만든 사람 | Credits
 
 - 기획·개발 : 한수수  
 - 개발 보조 : 챗GPT 
-- 코딩 도움 : 클라우드  
+- 코딩 도움 : 클로드  
 - 디자인 도움: 네이처 리 <br>
 <p>ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.<br>
  무단 복제, 배포, 2차 창작을 금합니다.</p>
 
 - Created and Developed by Soosoo Han  
 - Development Assistant: ChatGPT  
-- Coding Support: Cloud  
+- Coding Support: Claude
 - Design Support: Nature Lee
 <p>© 2025 Soosoo Han. All rights reserved.<br>
     No part of this game may be copied, distributed, or modified without permission.</p>
