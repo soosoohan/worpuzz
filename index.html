@@ -9,9 +9,9 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-4YZHC1G9FN');
+gtag(‘config’, ‘G-4YZHC1G9FN’);
 </script>
-  
+
   <meta charset="UTF-8" />
   <title>Worpuzz vs Computer</title>
 <style>
@@ -24,90 +24,104 @@
     color: #7A2E2E; /* 기본 텍스트: 부드러운 브라운 */
   }
 
-  h1 {
-    font-size: 3em;
-    color: #FF9494; /* 포인트 핑크 */
-    margin-bottom: 20px;
-  }
+h1 {
+font-size: 3em;
+color: #FF9494; /* 포인트 핑크 */
+margin-bottom: 20px;
+}
 
-  .description {
-    margin-bottom: 30px;
-    font-size: 1.1em;
-    line-height: 1.6;
-    background-color: #FFE8CD; /* 설명 배경: 연한 오렌지 */
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #7A2E2E;
-  }
+.description {
+margin-bottom: 30px;
+font-size: 1.1em;
+line-height: 1.6;
+background-color: #FFE8CD; /* 설명 배경: 연한 오렌지 */
+padding: 20px;
+border-radius: 10px;
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+color: #7A2E2E;
+}
 
-  .row-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 60px;
-    max-width: 800px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-  }
+.row-container {
+display: flex;
+justify-content: center;
+align-items: flex-start;
+gap: 60px;
+max-width: 800px;
+margin: 0 auto;
+flex-wrap: wrap;
+}
 
-  .column {
-    flex: 1 1 300px;
-  }
+.column {
+flex: 1 1 300px;
+}
 
-  .column h2 {
-    color: #FF9494;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #FF9494;
-    padding-bottom: 5px;
-    font-size: 1.3em;
-  }
+.column h2 {
+color: #FF9494;
+margin-bottom: 10px;
+border-bottom: 2px solid #FF9494;
+padding-bottom: 5px;
+font-size: 1.3em;
+}
 
-  .btn-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: stretch;
-  }
+.btn-list {
+display: flex;
+flex-direction: column;
+gap: 10px;
+align-items: stretch;
+}
 
-  .btn-list button {
-    padding: 10px;
-    font-size: 15px;
-    border: none;
-    border-radius: 8px;
-    background-color: #FFD6BA; /* 버튼 기본색: 살구톤 */
-    color: #7A2E2E;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
+.btn-list button {
+padding: 10px;
+font-size: 15px;
+border: none;
+border-radius: 8px;
+background-color: #FFD6BA; /* 버튼 기본색: 살구톤 */
+color: #7A2E2E;
+cursor: pointer;
+transition: background-color 0.3s, color 0.3s;
+}
 
-  .btn-list button:hover {
-    background-color: #FF9494;
-    color: white;
-  }
+.btn-list button:hover {
+background-color: #FF9494;
+color: white;
+}
 
-  .credits {
-    margin-top: 50px;
-    font-size: 0.85em;
-    color: #A65A5A;
-  }
+.credits {
+margin-top: 50px;
+font-size: 0.85em;
+color: #A65A5A;
+}
 .description button {
-  margin: 4px 6px;
-  padding: 6px 10px;
-  font-size: 13px;
-  background-color: #FF9494;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+margin: 4px 6px;
+padding: 6px 10px;
+font-size: 13px;
+background-color: #FF9494;
+color: white;
+border: none;
+border-radius: 6px;
+cursor: pointer;
 }
 
 .description button:hover {
-  background-color: #FF7373;
+background-color: #FF7373;
 }
-</style>  
+
+/* 디버그 정보 스타일 */
+.debug-info {
+background-color: #FFE8CD;
+border: 2px solid #FF9494;
+padding: 15px;
+margin: 20px auto;
+border-radius: 10px;
+max-width: 600px;
+font-family: monospace;
+font-size: 0.9em;
+text-align: left;
+}
+</style>
+
 </head>
 <body>
 
@@ -127,66 +141,100 @@ Your goal is to find more words than the computer. There is no winner or loser �
 🌼 If you find a daisy, all eight surrounding tiles will open, and you also get an extra turn.<br>
 Choose a word pool below to begin the game.</div>
 
+  <!-- 디버그 정보 표시 영역 -->
+
+  <div id="debug-info" class="debug-info" style="display: none;">
+    <h3>디버그 정보:</h3>
+    <div id="debug-content"></div>
+  </div>
+
   <div class="row-container">
     <div class="column">
       <h2>ENGLISH</h2>
       <div class="btn-list">
-
-
-    <button onclick="startGame('e1', true)">A1 Oxford Beginner</button>
-    <button onclick="startGame('e2', true)">A2 Oxford Elementary</button>
-    <button onclick="startGame('e3', true)">B1 Oxford Intermediate</button>
-    <button onclick="startGame('e4', true)">B2 Oxford Upper-Intermediate</button>
-    <button onclick="startGame('e5', true)">C1 Oxford Advanced</button>
-    <button onclick="startGame('e6', true)">Tour</button>
-    <button onclick="startGame('e7', true)">Organism</button>
-    <button onclick="startGame('e8', true)">Onomatopoeia</button>
-    <button onclick="startGame('e9', true)">Mimetic Words</button>
-
-
-</div>
+        <button onclick="startGame('e1', true)">A1 Oxford Beginner</button>
+        <button onclick="startGame('e2', true)">A2 Oxford Elementary</button>
+        <button onclick="startGame('e3', true)">B1 Oxford Intermediate</button>
+        <button onclick="startGame('e4', true)">B2 Oxford Upper-Intermediate</button>
+        <button onclick="startGame('e5', true)">C1 Oxford Advanced</button>
+        <button onclick="startGame('e6', true)">Tour</button>
+        <button onclick="startGame('e7', true)">Organism</button>
+        <button onclick="startGame('e8', true)">Onomatopoeia</button>
+        <button onclick="startGame('e9', true)">Mimetic Words</button>
+      </div>
     </div>
 
-
+```
 <div class="column">
   <h2>KOREAN</h2>
   <div class="btn-list">
-
-
-<button onclick="startGame('k1', false)">사자성어/고사성어</button>
-<button onclick="startGame('k2', false)">음성상징어(의태어/의성어)</button>
-<button onclick="startGame('k3', false)">여행</button>
-<button onclick="startGame('k4', false)">동물과 식물</button>
-<button onclick="startGame('k5', false)">사자숙어</button>
-      <br>
-<button onclick="location.href='https://soosoohan.github.io/soosooland/'">수수 랜드</button>
-
+    <button onclick="startGame('k1', false)">사자성어/고사성어</button>
+    <button onclick="startGame('k2', false)">음성상징어(의태어/의성어)</button>
+    <button onclick="startGame('k3', false)">여행</button>
+    <button onclick="startGame('k4', false)">동물과 식물</button>
+    <br>
+    <button onclick="location.href='https://soosoohan.github.io/soosooland/'">수수 랜드</button>
+  </div>
 </div>
-</div>
+```
 
   </div><br>
 
-<div class="credits">
-<p>
-기획·개발 : 한수수<br>
-개발 보조 : 챗GPT<br>
-코딩 도움 : 클로드<br>
-디자인 도움: 네이처 리<br>
-ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.<br> 무단 복제, 배포, 2차 창작을 금합니다.<br>
-Created and Developed by Soosoo Han<br>
-Development Assistant: ChatGPT<br>
-Coding Support: Claude<br>
-Design Support: Nature Lee<br>
-© 2025 Soosoo Han. All rights reserved.<br>
-No part of this game may be copied, distributed, or modified without permission.</p>
-</div>
+  <div class="credits">
+    <p>
+    기획·개발 : 한수수<br>
+    개발 보조 : 챗GPT<br>
+    코딩 도움 : 클로드<br>
+    디자인 도움: 네이처 리<br>
+    ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.<br> 무단 복제, 배포, 2차 창작을 금합니다.<br>
+    Created and Developed by Soosoo Han<br>
+    Development Assistant: ChatGPT<br>
+    Coding Support: Claude<br>
+    Design Support: Nature Lee<br>
+    © 2025 Soosoo Han. All rights reserved.<br>
+    No part of this game may be copied, distributed, or modified without permission.</p>
+  </div>
 
   <script>
+    // 디버그 정보 표시 함수
+    function showDebugInfo(message) {
+      const debugDiv = document.getElementById('debug-info');
+      const debugContent = document.getElementById('debug-content');
+      debugDiv.style.display = 'block';
+      debugContent.innerHTML += message + '<br>';
+      console.log(message);
+    }
 
-function startGame(poolName, isEnglish) {
-    const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
-    location.href = `${page}?pool=${poolName}`;
-}    
+    function startGame(poolName, isEnglish) {
+      try {
+        showDebugInfo(`게임 시작 시도: poolName=${poolName}, isEnglish=${isEnglish}`);
+        
+        const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
+        const targetUrl = `${page}?pool=${poolName}`;
+        
+        showDebugInfo(`대상 URL: ${targetUrl}`);
+        
+        // 파일 존재 확인을 위한 테스트
+        const testLink = document.createElement('a');
+        testLink.href = targetUrl;
+        showDebugInfo(`절대 URL: ${testLink.href}`);
+        
+        // 실제 이동 시도
+        setTimeout(() => {
+          showDebugInfo('페이지 이동 시작...');
+          window.location.href = targetUrl;
+        }, 1000);
+        
+      } catch (error) {
+        showDebugInfo(`오류 발생: ${error.message}`);
+      }
+    }
+
+    // 페이지 로드 시 기본 정보 표시
+    window.onload = function() {
+      showDebugInfo(`현재 페이지: ${window.location.href}`);
+      showDebugInfo(`현재 경로: ${window.location.pathname}`);
+    };
   </script>
 
 </body>
