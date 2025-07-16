@@ -2,477 +2,240 @@
 
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>워퍼즈 인덱스</title>
-    <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Pretendard', sans-serif;
-    background: #2e8b8b ;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.blackboard {
-    width: 98vw;
-    height: 95vh;
-    background: #2e8b8b;
-    position: relative;
-    }
-
-.blackboard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    
-}
-
-.chalk-text {
-    color: #f0f8ff;
-    font-family: 'Pretendard', sans-serif;
-    }
-
-.main-title {
-    position: absolute;
-    top: 4%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.3em;
-    font-weight: bold;
-    text-align: center;
-margin-bottom: 4px; /* 간격 조절 */
-    
-}
-
-
-.schedule-board {
-    position: absolute;
-    color: #2e8b8b;
-    top: 8%;
-    left: 3%;
-    padding: 15px;
-    color: #333;
-    width: 200px;
-    font-family: 'Pretendard', sans-serif;
-    }
-
-
-
-.schedule-title {
-    font-size: 1.3em;
-       color: #ddd;
-    text-align: center;
-    margin-bottom: 12px;
-    font-weight: bold;
-    padding-bottom: 6px;
-    
-}
-
-.schedule-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px; /* 버튼 주변 여백 */
-    color: #2e8b8b;
-background-color: #2e8b8b;  /* 칠판색 */
-
-    font-size: 1.0em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.schedule-item:last-child {
-    border-bottom: none;
-}
-
-.schedule-item:hover {
-    background-color: rgba(46, 139, 139, 0.1);
-    border-radius: 4px;
-}
-
-.schedule-emoji {
-    font-size: 1.1em;
-}
-.schedule-item .game-button {
-padding: 15px 25px;
-font-size: 1.3em;
-background: rgba(255,255,255,0.9);
-color: #2e8b8b;
-border: none;
-border-radius: 10px;
-cursor: pointer;
-transition: all 0.3s ease;
-width: 100%;
-display: flex;
-align-items: center;
-justify-content: space-between;
-
-font-family: 'Pretendard', sans-serif;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.schedule-item .game-button:hover {
-background: #f0f8ff;
-transform: translateY(-3px);
-box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-}
-
-.game-description {
-    position: absolute;
-    top: 18%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    color: #f0f8ff;
-    font-size: 1.3em;
-    text-align: left;
-    z-index: 10;
-   line-height: 1.3;  
-
-}
-
-.game-description h3 {
-    color: #add8e6;
-    margin-bottom: 10px;
-    font-size: 1.4em;
-    border-bottom: 2px solid #add8e6;
-    padding-bottom: 5px;
-}
-
-.game-description p {
-    margin-bottom: 15px;
-}
-
-.game-description ul {
-    margin-bottom: 15px;
-    padding-left: 20px;
-}
-
-.game-description li {
-    margin-bottom: 8px;
-}
-
-
-.language-toggle {
-    position: absolute;
-    top: 15%;
-    right: 3%;
-    background: rgba(255,255,255,0.9);
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.language-button {
-    background: #2e8b8b;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    margin: 2px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Pretendard', sans-serif;
-    font-size: 1.1em;
-    transition: all 0.3s ease;
-}
-
-.language-button:hover {
-    background: #20b2aa;
-}
-
-.language-button.active {
-    background: #ff69b4;
-}
-
-.credits-area {
-    position: absolute;
-    bottom: 5%;
-    right: 5%;
-    color: #f0f8ff;
-    font-size: 1.1em;
-    line-height: 1.4;
-    text-align: right;
-}
-
-.credits-item {
-    margin-bottom: 8px;
-    transform: rotate(-1deg);
-}
-
-.credits-item:nth-child(2) {
-    transform: rotate(0.5deg);
-}
-
-.heart {
-    color: #ff69b4;
-    font-size: 0.9em;
-}
-
-.game-menu {
-    position: absolute;
-    bottom: 6%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 50px;
-    max-width: 90vw;
-   
-}
-.main-game-button {
-    background: rgba(255,255,255,0.9);
-    color: #2e8b8b;
-    padding: 15px 25px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.3em;
-    font-family: 'Pretendard', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.main-game-button:hover {
-    background: #f0f8ff;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    min-width: 160px;
-
-
-}
-.chalk-area {
-    position: absolute;
-    bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: flex-end;
-    gap: 15px;
-}
-.eraser {
-    position: absolute;
-    bottom: 5%;
-    left: 8%;
-    width: 40px;
-    height: 20px;
-    background: #ffb6c1;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transform: rotate(15deg);
-}
-
-.chalk-pieces {
-    position: absolute;
-    bottom: 7%;
-    left: 12%;
-    display: flex;
-    gap: 5px;
-}
-
-.chalk {
-    width: 8px;
-    height: 30px;
-    background: #f0f8ff;
-    border-radius: 4px;
-    transform: rotate(45deg);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-.chalk:nth-child(2) {
-    transform: rotate(-30deg);
-    background: #ffe4e1;
-}
-
-.chalk:nth-child(3) {
-    transform: rotate(60deg);
-    background: #e6ffe6;
-}
-
-.hidden {
-    display: none;
-}
-
-@media (max-height: 800px) {
-    .blackboard {
-        border: none;  /* 테두리 제거 */
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-    }
-}
-</style>
-</head>
-<body>
-    <div class="blackboard">
-        <div class="schedule-board">
-            <div class="schedule-title">수수의 게임들</div>
-
-  <div class="schedule-item" >
-            
-           <button class="game-button"onclick="location.href='https://soosoohan.github.io/numzzle/'">  <span class="schedule-emoji">🔢</span>
-                <span>넘즐</span></button>
-            </div>
-            <div class="schedule-item" >
-               
-                <button class="game-button" onclick="location.href='https://soosoohan.github.io/worpuzz/'"><span class="schedule-emoji">📝</span>
-                <span>워퍼즈</span></button>
-            </div>
-            <div class="schedule-item" >
-               <button class="game-button" onclick="location.href='https://soosoohan.github.io/moeum-quiz/'"> <span class="schedule-emoji">📚</span>
-                <span>모음퀴즈</span></button>
-            </div>
-
-<div class="schedule-item" >
-                <button class="game-button"onclick="location.href='https://soosoohan.github.io/trinkle/'"><span class="schedule-emoji">✨</span>
-                <span>트링클</span></button>
-            </div>
-
-<div class="schedule-item" >
-                <button class="game-button" onclick="location.href='https://soosoohan.github.io/worpuzzmate/'">              <span class="schedule-emoji">👥</span>
-<span>워퍼즈메이트</span></button>
-              </div>
-<div class="schedule-item" >
-              <button class="game-button"><span class="schedule-emoji">➕</span>
-                <span>플마</span></button>
-  </div>
-        </div>
-
-<p>
-
-    <h1 class="chalk-text main-title">워퍼즈 WORPUZZ</h1></p>
-    
-    <div class="language-toggle">
-        <button class="language-button active" onclick="toggleLanguage('ko')">한국어</button>
-        <button class="language-button" onclick="toggleLanguage('en')">English</button>
-    </div>
-    
-    <div class="game-description chalk-text" id="korean-description">
-        <h3>🎮 게임 소개</h3>
-<p>워퍼즈 (WORPUZZ)=단어(WORD) + 퍼즐(PUZZLE)</p>
-        <h3>📋 게임 규칙</h3>
-        <ul>
-            <li>컴퓨터와 교대로 격자를 클릭하여 숨겨진 단어를 찾아가는 1인용 워퍼즈 게임입니다.</li>
-            <li>단어는 가로, 세로, 대각선 방향으로 숨겨져 있으며, 마지막 글자를 열면 해당 단어를 획득합니다.</li>
-            <li>더 많은 단어를 찾는 것이 목표이며,  "게임 종료" 가 보일 때  찾은 단어의 수로 승패가 결정됩니다.</li>
-            <li>🍀 클로버를 찾으면 주변 4칸이 열리며 추가 턴이 주어집니다.</li>
-            <li>🌼 데이지를 열면 주변 8칸이 모두 열리며 마찬가지로 추가 턴이 주어집니다.</li>
-            <li>아래에서 원하는 워드풀을 선택해 게임을 시작하세요.</li>
-        </ul>
-    </div>
-
-    <div class="game-description chalk-text hidden" id="english-description">
-        <h3>🎮 Game Overview</h3>
-        <p>WORPUZZ = WORD + PUZZLE<br>
-           </p>
-
-        <h3>📋 Game Rules</h3>
-        <ul>
-            <li>This is a single-player Worpuzz game where you take turns with the computer to uncover hidden words in the grid.</li>
-            <li>Words are hidden horizontally, vertically, or diagonally, and you earn the word by revealing its final letter.</li>
-            <li>Your goal is to find more words than the computer. There is no winner or loser — the game ends with "Game Over."</li>
-            <li>🍀 If you find a clover, the four adjacent tiles (up, down, left, right) will open, and you get an extra turn.</li>
-            <li>🌼 If you find a daisy, all eight surrounding tiles will open, and you also get an extra turn.<br>
-Choose a word pool below to begin the game.</li>
-         </ul>
-      
-    </div>
-    <div class="credits-area chalk-text">
-        <div class="credits-item">
-            기획 · 개발: 한수수 
-        </div>
-        <div class="credits-item">
-            개발 보조: 챗GPT 
-        </div>
-        <div class="credits-item">
-            코딩 도움: 클라우드 
-        </div>
-        <div class="credits-item">
-            디자인 도움: 네이처리 
-        </div>
-        <div class="credits-item">
-            © 2025 한수수
-        </div>
-    </div>
-<!-- 한국어 게임 메뉴 -->
-<div class="game-menu" id="korean-menu">
-  <button class="main-game-button" onclick="startGame('k1', false)">사자성어/고사성어</button>
-  <button class="main-game-button" onclick="startGame('k2', false)">음성상징어(의태어/의성어)</button>
-  <button class="main-game-button" onclick="startGame('k3', false)">여행</button>
-  <button class="main-game-button" onclick="startGame('k4', false)">동물과 식물</button>
-  <button class="main-game-button" onclick="startGame('k5', false)">사자숙어</button>
-</div>
-
-<!-- 영어 게임 메뉴 -->
-<div class="game-menu hidden" id="english-menu">
-  <button class="main-game-button" onclick="startGame('e1', true)">A1 Oxford Beginner</button>
-  <button class="main-game-button" onclick="startGame('e2', true)">A2 Oxford Elementary</button>
-  <button class="main-game-button" onclick="startGame('e3', true)">B1 Oxford Intermediate</button>
-  <button class="main-game-button" onclick="startGame('e4', true)">B2 Oxford Upper-Intermediate</button>
-  <button class="main-game-button" onclick="startGame('e5', true)">C1 Oxford Advanced</button>
-  <button class="main-game-button" onclick="startGame('e6', true)">Tour</button>
-  <button class="main-game-button" onclick="startGame('e7', true)">Organism</button>
-  <button class="main-game-button" onclick="startGame('e8', true)">Onomatopoeia</button>
-  <button class="main-game-button" onclick="startGame('e9', true)">Mimetic Words</button>
-</div>
-
-    <div class="eraser"></div>
-    <div class="chalk-pieces">
-        <div class="chalk"></div>
-        <div class="chalk"></div>
-        <div class="chalk"></div>
-    </div>
-</div>
-
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
 <script>
-function toggleLanguage(lang) {
-    const isKorean = lang === 'ko';
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    // 설명 토글
-    document.getElementById('korean-description').classList.toggle('hidden', !isKorean);
-    document.getElementById('english-description').classList.toggle('hidden', isKorean);
-
-    // 버튼 토글
-    document.getElementById('korean-menu').classList.toggle('hidden', !isKorean);
-    document.getElementById('english-menu').classList.toggle('hidden', isKorean);
-
-    // 버튼 색상
-    const koBtn = document.querySelector('.language-button[onclick*="ko"]');
-    const enBtn = document.querySelector('.language-button[onclick*="en"]');
-
-    if (isKorean) {
-        koBtn.classList.add('active');
-        enBtn.classList.remove('active');
-    } else {
-        koBtn.classList.remove('active');
-        enBtn.classList.add('active');
-    }
-}
-function startGame(poolName, isEnglish) {
-    const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
-    location.href = `${page}?pool=${poolName}`;
-}    
-
+gtag(‘config’, ‘G-4YZHC1G9FN’);
 </script>
 
+  <meta charset="UTF-8" />
+  <title>Worpuzz vs Computer</title>
+<style>
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #FFF2EB; /* 전체 배경: 피치 크림톤 */
+    margin: 0;
+    padding: 40px;
+    text-align: center;
+    color: #7A2E2E; /* 기본 텍스트: 부드러운 브라운 */
+  }
+
+h1 {
+font-size: 3em;
+color: #FF9494; /* 포인트 핑크 */
+margin-bottom: 20px;
+}
+
+.description {
+margin-bottom: 30px;
+font-size: 1.1em;
+line-height: 1.6;
+background-color: #FFE8CD; /* 설명 배경: 연한 오렌지 */
+padding: 20px;
+border-radius: 10px;
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+color: #7A2E2E;
+}
+
+.row-container {
+display: flex;
+justify-content: center;
+align-items: flex-start;
+gap: 60px;
+max-width: 800px;
+margin: 0 auto;
+flex-wrap: wrap;
+}
+
+.column {
+flex: 1 1 300px;
+}
+
+.column h2 {
+color: #FF9494;
+margin-bottom: 10px;
+border-bottom: 2px solid #FF9494;
+padding-bottom: 5px;
+font-size: 1.3em;
+}
+
+.btn-list {
+display: flex;
+flex-direction: column;
+gap: 10px;
+align-items: stretch;
+}
+
+.btn-list button {
+padding: 10px;
+font-size: 15px;
+border: none;
+border-radius: 8px;
+background-color: #FFD6BA; /* 버튼 기본색: 살구톤 */
+color: #7A2E2E;
+cursor: pointer;
+transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-list button:hover {
+background-color: #FF9494;
+color: white;
+}
+
+.credits {
+margin-top: 50px;
+font-size: 0.85em;
+color: #A65A5A;
+}
+.description button {
+margin: 4px 6px;
+padding: 6px 10px;
+font-size: 13px;
+background-color: #FF9494;
+color: white;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+}
+
+.description button:hover {
+background-color: #FF7373;
+}
+
+/* 디버그 정보 스타일 */
+.debug-info {
+background-color: #FFE8CD;
+border: 2px solid #FF9494;
+padding: 15px;
+margin: 20px auto;
+border-radius: 10px;
+max-width: 600px;
+font-family: monospace;
+font-size: 0.9em;
+text-align: left;
+}
+</style>
+
+</head>
+<body>
+
+  <h1>WORPUZZ</h1>
+
+  <div class="description">
+    컴퓨터와 교대로 격자를 클릭하여 숨겨진 단어를 찾아가는 1인용 워퍼즈 게임입니다.<br>
+    단어는 가로, 세로, 대각선 방향으로 숨겨져 있으며, 마지막 글자를 열면 해당 단어를 획득합니다.<br>
+    더 많은 단어를 찾는 것이 목표이며, 승패 없이 "게임 종료"로 마무리됩니다.<br><br>
+    🍀 클로버를 열면 상하좌우 4칸이 함께 열리고 한 번 더 턴을 가집니다.<br>
+    🌼 데이지를 열면 주변 8칸이 모두 열리며 마찬가지로 추가 턴이 주어집니다.<br>
+    아래에서 원하는 워드풀을 선택해 게임을 시작하세요.
+  This is a single-player Worpuzz game where you take turns with the computer to uncover hidden words in the grid.<br>
+Words are hidden horizontally, vertically, or diagonally, and you earn the word by revealing its final letter.<br>
+Your goal is to find more words than the computer. There is no winner or loser — the game ends with "Game Over."<br><br>
+🍀 If you find a clover, the four adjacent tiles (up, down, left, right) will open, and you get an extra turn.<br>
+🌼 If you find a daisy, all eight surrounding tiles will open, and you also get an extra turn.<br>
+Choose a word pool below to begin the game.</div>
+
+  <!-- 디버그 정보 표시 영역 -->
+
+  <div id="debug-info" class="debug-info" style="display: none;">
+    <h3>디버그 정보:</h3>
+    <div id="debug-content"></div>
+  </div>
+
+  <div class="row-container">
+    <div class="column">
+      <h2>ENGLISH</h2>
+      <div class="btn-list">
+        <button onclick="startGame('e1', true)">A1 Oxford Beginner</button>
+        <button onclick="startGame('e2', true)">A2 Oxford Elementary</button>
+        <button onclick="startGame('e3', true)">B1 Oxford Intermediate</button>
+        <button onclick="startGame('e4', true)">B2 Oxford Upper-Intermediate</button>
+        <button onclick="startGame('e5', true)">C1 Oxford Advanced</button>
+        <button onclick="startGame('e6', true)">Tour</button>
+        <button onclick="startGame('e7', true)">Organism</button>
+        <button onclick="startGame('e8', true)">Onomatopoeia</button>
+        <button onclick="startGame('e9', true)">Mimetic Words</button>
+      </div>
+    </div>
+
+```
+<div class="column">
+  <h2>KOREAN</h2>
+  <div class="btn-list">
+    <button onclick="startGame('k1', false)">사자성어/고사성어</button>
+    <button onclick="startGame('k2', false)">음성상징어(의태어/의성어)</button>
+    <button onclick="startGame('k3', false)">여행</button>
+    <button onclick="startGame('k4', false)">동물과 식물</button>
+    <br>
+    <button onclick="location.href='https://soosoohan.github.io/soosooland/'">수수 랜드</button>
+  </div>
+</div>
+```
+
+  </div><br>
+
+  <div class="credits">
+    <p>
+    기획·개발 : 한수수<br>
+    개발 보조 : 챗GPT<br>
+    코딩 도움 : 클로드<br>
+    디자인 도움: 네이처 리<br>
+    ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.<br> 무단 복제, 배포, 2차 창작을 금합니다.<br>
+    Created and Developed by Soosoo Han<br>
+    Development Assistant: ChatGPT<br>
+    Coding Support: Claude<br>
+    Design Support: Nature Lee<br>
+    © 2025 Soosoo Han. All rights reserved.<br>
+    No part of this game may be copied, distributed, or modified without permission.</p>
+  </div>
+
+  <script>
+    // 디버그 정보 표시 함수
+    function showDebugInfo(message) {
+      const debugDiv = document.getElementById('debug-info');
+      const debugContent = document.getElementById('debug-content');
+      debugDiv.style.display = 'block';
+      debugContent.innerHTML += message + '<br>';
+      console.log(message);
+    }
+
+    function startGame(poolName, isEnglish) {
+      try {
+        showDebugInfo(`게임 시작 시도: poolName=${poolName}, isEnglish=${isEnglish}`);
+        
+        const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
+        const targetUrl = `${page}?pool=${poolName}`;
+        
+        showDebugInfo(`대상 URL: ${targetUrl}`);
+        
+        // 파일 존재 확인을 위한 테스트
+        const testLink = document.createElement('a');
+        testLink.href = targetUrl;
+        showDebugInfo(`절대 URL: ${testLink.href}`);
+        
+        // 실제 이동 시도
+        setTimeout(() => {
+          showDebugInfo('페이지 이동 시작...');
+          window.location.href = targetUrl;
+        }, 1000);
+        
+      } catch (error) {
+        showDebugInfo(`오류 발생: ${error.message}`);
+      }
+    }
+
+    // 페이지 로드 시 기본 정보 표시
+    window.onload = function() {
+      showDebugInfo(`현재 페이지: ${window.location.href}`);
+      showDebugInfo(`현재 경로: ${window.location.pathname}`);
+    };
+  </script>
 
 </body>
 </html>
-
-
-
