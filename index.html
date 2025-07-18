@@ -188,6 +188,17 @@ Choose a word pool below to begin the game.</div>
   </div>
 
   <script>
+const w = window.innerWidth;
+    const h = window.innerHeight;
+    const isPhoneScreen = w <= 850 || h <= 500;
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (isTouch && isPhoneScreen) {
+        location.href = "https://worzzle-one.vercel.app";
+    }
+
+  
+    
     // 디버그 정보 업데이트 함수
     function updateDebugInfo() {
       const w = window.innerWidth;
