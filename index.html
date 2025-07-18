@@ -98,17 +98,14 @@ cursor: pointer;
 background-color: #FF7373;
 }
 
-/* 디버그 박스 */
-.debug-box {
-background-color: #FFE8CD;
-border: 2px solid #FF9494;
-padding: 10px;
-margin: 20px auto;
+.redirect-message {
+background-color: #FF9494;
+color: white;
+padding: 15px;
 border-radius: 8px;
+margin: 20px auto;
 max-width: 600px;
-font-family: monospace;
-font-size: 0.9em;
-text-align: left;
+font-size: 1.1em;
 }
 </style>
 
@@ -117,11 +114,10 @@ text-align: left;
 
   <h1>WORPUZZ</h1>
 
-  <!-- 디버그 정보 표시 -->
+  <!-- 리다이렉트 메시지 -->
 
-  <div id="debug-info" class="debug-box">
-    <h3>모바일 감지 정보:</h3>
-    <div id="debug-content">로딩 중...</div>
+  <div id="redirect-message" class="redirect-message" style="display: none;">
+    모바일 기기가 감지되었습니다. 3초 후 워즐(모바일 버전)로 이동합니다...
   </div>
 
   <div class="description">
@@ -154,7 +150,7 @@ Choose a word pool below to begin the game.</div>
       </div>
     </div>
 
-
+```
 <div class="column">
   <h2>KOREAN</h2>
   <div class="btn-list">
@@ -165,7 +161,6 @@ Choose a word pool below to begin the game.</div>
     <button onclick="startGame('k5', false)">사자숙어</button>
   </div>
 </div>
-
 
   </div><br>
 
@@ -188,59 +183,62 @@ Choose a word pool below to begin the game.</div>
   </div>
 
   <script>
-const w = window.innerWidth;
-    const h = window.innerHeight;
-    const isPhoneScreen = w <= 850 || h <= 500;
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    if (isTouch && isPhoneScreen) {
-        location.href = "https://worzzle-one.vercel.app";
+    // 모바일 감지 함수 (더 정확한 감지)
+    function isMobileDevice() {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = [
+        'android', 'iphone', 'ipad', 'ipod', 'blackberry', 
+        'windows phone', 'mobile', 'opera mini', 'iemobile'
+      ];
+      
+      // User Agent 기반 감지
+      const userAgentMobile = mobileKeywords.some(keyword => userAgent.includes(keyword));
+      
+      // 화면 크기 기반 감지
+      const screenMobile = window.innerWidth <= 768 || window.innerHeight <= 600;
+      
+      // 터치 지원 감지
+      const touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      // 종합 판단: User Agent가 모바일이거나, 화면이 작고 터치를 지원하는 경우
+      return userAgentMobile || (screenMobile && touchSupport);
     }
-
-  
     
     // 디버그 정보 업데이트 함수
     function updateDebugInfo() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const userAgent = navigator.userAgent;
-      
-      // 기존 로직
-      const isPhoneScreen = w <= 850 || h <= 500;
-      const shouldRedirect = isTouch && isPhoneScreen;
-      
-      // 개선된 로직 (더 정확한 모바일 감지)
-      const isMobile = w <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(userAgent);
-      const shouldRedirectImproved = isMobile;
-      
-      const debugContent = document.getElementById('debug-content');
-      debugContent.innerHTML = `
-        <strong>화면 크기:</strong> ${w} x ${h}<br>
-        <strong>터치 지원:</strong> ${isTouch}<br>
-        <strong>User Agent:</strong> ${userAgent.substring(0, 50)}...<br>
-        <strong>기존 로직:</strong> isPhoneScreen=${isPhoneScreen}, shouldRedirect=${shouldRedirect}<br>
-        <strong>개선 로직:</strong> isMobile=${isMobile}, shouldRedirectImproved=${shouldRedirectImproved}<br>
-        <strong>결과:</strong> ${shouldRedirectImproved ? '모바일 버전으로 리다이렉트됨' : '데스크톱 버전 유지'}
-      `;
-      
-      return shouldRedirectImproved;
+      return isMobileDevice();
     }
 
     // 페이지 로드 시 실행
     window.onload = function() {
       const shouldRedirect = updateDebugInfo();
       
-      // 실제 리다이렉트 (3초 후)
+      // 실제 리다이렉트 (모바일인 경우 즉시 실행)
       if (shouldRedirect) {
+        const redirectMessage = document.getElementById('redirect-message');
+        redirectMessage.style.display = 'block';
+        
+        // 3초 후 리다이렉트
         setTimeout(() => {
           location.href = "https://soosoohan.github.io/worzzle/";
         }, 3000);
       }
     };
 
-    // 창 크기 변경 시 업데이트
-    window.onresize = updateDebugInfo;
+    // 창 크기 변경 시 업데이트 (데스크톱에서 창 크기 변경 테스트용)
+    window.onresize = function() {
+      const shouldRedirect = updateDebugInfo();
+      
+      // 창 크기 변경으로 모바일 조건을 만족하게 된 경우에도 리다이렉트
+      if (shouldRedirect) {
+        const redirectMessage = document.getElementById('redirect-message');
+        redirectMessage.style.display = 'block';
+        
+        setTimeout(() => {
+          location.href = https://worzzle-one.vercel.app";
+        }, 3000);
+      }
+    };
 
     function startGame(poolName, isEnglish) {
       const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
