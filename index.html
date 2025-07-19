@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -134,7 +135,35 @@
         background-color: #FF9494;
         color: white;
     }
+.square-button {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, #FFD6BA, #FFCAA6);
+            color: #7A2E2E;
+            border: none;
+            border-radius: 12px; /* 둥근 모서리 */
+            cursor: pointer;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.2;
+            margin: 8px;
+            transition: all 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
 
+    .square-button:hover {
+        background-color: #FF8FAB; /* 호버 시 진한 분홍 */
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .square-button:active {
+        transform: scale(0.95);
+    }
     .credits {
         margin-top: 50px;
         font-size: 0.85em;
@@ -323,7 +352,13 @@
     </div>
 
     <div class="credits">
-        <p>
+        
+<button class="square-button" onclick="location.href='https://soosoohan.github.io/soosooland/'">
+    <div>재미있게</div>
+    <div>공부하는</div>
+    <div>수수허브</div>
+</button>
+<p>
         기획·개발 : 한수수<br>
         개발 보조 : 챗GPT<br>
         코딩 도움 : 클로드<br>
