@@ -226,7 +226,6 @@
   <div id="gameSection" class="hidden">
     <div id="currentTurn"></div>
 
-
 <div class="container">
   <div id="computerScore">
     <h3>컴퓨터:</h3>
@@ -238,6 +237,7 @@
 </div>
 
 <!-- 모바일용 점수판 -->
+
 <div class="mobile-scores">
   <div id="computerScore-mobile">
     <h3>컴퓨터:</h3>
@@ -251,7 +251,6 @@
   <button id="retryBtn" class="game-button">다시 하기</button>
   <button onclick="location.href='index.html'" class="game-button">초기 화면</button>
 </div>
-
 
   </div>
 
@@ -281,7 +280,10 @@ window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const poolFile = urlParams.get('pool');
   if (!poolFile) {
-    document.body.innerHTML = '<p>❌ 워드풀 파일이 지정되지 않았습니다.</p>';
+    // 임시로 기본 단어들 설정
+    words = ['서울특별시', '부산직할시', '여수밤바다', '목포의눈물', '동백아가씨', '이차선다리'];
+    gameSection.classList.remove('hidden');
+    init();
     return;
   }
 
@@ -351,11 +353,12 @@ function init() {
     console.log('모든 단어가 성공적으로 배치되었습니다 (3방향 사용)');
   } else {
     console.log('방향 검증 실패 - 기본 배치로 진행');
-    // 기본 배치 로직
+    // 기본 배치 로직 (긴 단어부터)
     let placedWords = [];
-    shuffle(words);
+    // 긴 단어부터 배치
+    const sortedWords = [...words].sort((a, b) => b.length - a.length);
     
-    for (let word of words) {
+    for (let word of sortedWords) {
       let placed = false;
       for (let attempt = 0; attempt < 500; attempt++) {
         if (placeWord(word)) {
@@ -465,9 +468,10 @@ function placeAllWordsWithVariety() {
     wordMap = {};
     
     let allPlaced = true;
-    const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+    // 긴 단어부터 배치 (길이순 정렬)
+    const sortedWords = [...words].sort((a, b) => b.length - a.length);
     
-    for (let word of shuffledWords) {
+    for (let word of sortedWords) {
       if (!placeWord(word)) {
         allPlaced = false;
         break;
@@ -651,16 +655,26 @@ function computerMove() {
   const selectedCell = availableCells[randomIndex];
   
   console.log('컴퓨터가 선택한 셀:', selectedCell);
-  handleClick(selectedCell);
+  handleClickInternal(selectedCell, 'computer'); // 컴퓨터 클릭임을 명시
 }
 
 function handleClick(index) {
+  // 사용자 클릭은 사용자 턴일 때만 허용
+  if (currentPlayer !== 'user' || revealed[index] || resultShown) return;
+  
+  handleClickInternal(index, 'user');
+}
+
+function handleClickInternal(index, player) {
   if (revealed[index] || resultShown) return;
 
+  // 현재 플레이어를 명시적으로 설정
+  currentPlayer = player;
+  
   const extra = clovers.has(index) || daisies.has(index);
   reveal(index);
   checkWords();
-  checkGameEnd(); // resultShown = true가 먼저 실행됨
+  checkGameEnd();
 
   if (!resultShown) {
     switchTurn(extra);
