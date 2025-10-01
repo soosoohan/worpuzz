@@ -316,12 +316,14 @@ h1 {
     <h1>WORPUZZ</h1>
 
 
-<!-- 1단계: 플레이어 수 선택 -->
+<!-- 1단계: 격자의 크기 선택 -->
 <div id="step1" class="step active">
-    <div class="step-title">
-        어떤 방식으로 플레이하시겠어요?
-        <span class="english">How would you like to play?</span>
-    </div>
+
+<div class="step-title">
+    격자의 크기를 선택하세요.
+    <span class="english">Select the grid size</span>
+</div>
+
     <div class="description">
         워퍼즈는 격자를 클릭하여 숨겨진 단어를 찾는 게임입니다.<br>
         단어는 가로, 세로, 대각선 방향으로 숨겨져 있으며, 마지막 글자를 열면 해당 단어를 획득합니다.<br>
@@ -424,7 +426,73 @@ h1 {
 </div>
 
 <script>
-    let currentStep = 1;
+window.addEventListener('DOMContentLoaded', () => {
+    // 화면 크기 체크
+    const screenWidth = window.innerWidth;
+    
+    // 스마트폰만 리다이렉트 (태블릿은 제외)
+    const isPhone = /Android.*Mobile|iPhone|iPod/i.test(navigator.userAgent);
+    const isTinyScreen = screenWidth < 450; // 아주 작은 화면만
+    
+    // 스마트폰이거나 화면이 450px 미만일 때만 리다이렉트
+    if ((isPhone || isTinyScreen) && !sessionStorage.getItem('fromMini')) {
+        redirectToMini();
+    }
+});
+
+function redirectToMini() {
+    const overlay = document.createElement('div');
+    overlay.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            color: white;
+            text-align: center;
+            font-family: inherit;
+        ">
+            <div style="padding: 30px;">
+                <div style="font-size: 48px; margin-bottom: 20px;">📱</div>
+                <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+                    화면이 작아 게임이 어렵습니다
+                </div>
+                <div style="font-size: 16px; margin-bottom: 10px;">
+                    Screen too small for optimal play
+                </div>
+                <div style="font-size: 14px; opacity: 0.8; margin-bottom: 25px;">
+                    워퍼즈 미니로 자동 이동합니다...<br>
+                    Redirecting to Worpuzz Mini...
+                </div>
+                <div class="loading-dots" style="font-size: 30px; letter-spacing: 5px;">
+                    ⚡⚡⚡
+                </div>
+            </div>
+        </div>
+        <style>
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.3; }
+            }
+            .loading-dots {
+                animation: blink 1.5s infinite;
+            }
+        </style>
+    `;
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => {
+        window.location.href = 'https://worzzle-one.vercel.app';
+    }, 1500);
+}
+
+let currentStep = 1;
     
     function selectPlayers(type) {
         if (type === 'single') {
