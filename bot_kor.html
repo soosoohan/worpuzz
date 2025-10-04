@@ -2,6 +2,14 @@
 
 <html lang="ko">
 <head>
+ <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4YZHC1G9FN');
+    </script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <title>워퍼즈한글</title>
@@ -32,6 +40,31 @@
     line-height: 1.4;
   }
 
+  .game-area {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .game-button {
+    font-size: 18px;
+    background-color: #FFD6BA;
+    padding: 10px 22px;
+    margin: 8px;
+    color: #7A2E2E;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .game-button:hover {
+    background-color: #FF9494;
+    color: white;
+    transform: scale(1.05);
+  }
+
+  /* 데스크톱: 가로 배치 */
   .container {
     display: flex;
     align-items: flex-start;
@@ -55,20 +88,15 @@
     cursor: pointer;
     user-select: none;
     border-radius: 4px;
-    transition: transform 0.1s;
-  }
-
-  .cell:hover {
-    transform: scale(1.05);
   }
 
   .revealed {
     background-color: #fff;
-    font-size: 1.6em;
+    font-size: 1.6em;  /* 이것도 함께 추가! */
   }
   
   .revealed.clover {
-    background-color: #e8f5e9;
+    background-color: #fff;
     font-size: 1.6em;
   }
   
@@ -85,6 +113,7 @@
     font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
   }
 
+  /* 데스크톱 점수판 */
   #npcScore, #userScore {
     background-color: #0E756D;
     color: #fff;
@@ -94,7 +123,6 @@
     box-sizing: border-box;
     border-radius: 12px;
     flex-shrink: 0;
-    overflow-y: auto;
   }
   
   #npcScore h2, #userScore h2 {
@@ -104,20 +132,21 @@
   }
   
   #npcScore p, #userScore p {
-    font-size: 1em;
+    font-size: 1.2em;
     margin: 5px 0;
   }
 
+  /* 모바일 점수판 - 기본적으로 숨김 */
   .score-container {
     display: none;
   }
 
   .word-owned-user {
-    background-color: #a0fab5 !important;
+    background-color: #a0fab5;
   }
   
   .word-owned-npc {
-    background-color: #f7cdf7 !important;
+    background-color: #f7cdf7;
   }
 
   #currentTurn {
@@ -141,6 +170,10 @@
     flex-shrink: 0;
   }
 
+  .hidden {
+    display: none;
+  }
+
   .btn-container {
     display: flex;
     gap: 10px;
@@ -162,6 +195,7 @@
     color: #fff;
   }
 
+  /* 모바일 반응형 */
   @media (max-width: 960px) {
     h1 {
       font-size: 2.5em;
@@ -173,6 +207,7 @@
       margin: 0 10px 15px;
     }
     
+    /* 모바일: 세로 배치 */
     .container {
       flex-direction: column;
       align-items: center;
@@ -187,17 +222,19 @@
       aspect-ratio: 1 / 1;
       grid-gap: 3px;
     }
+
     
+    /* 데스크톱 점수판 숨김 */
     #npcScore, #userScore {
       display: none !important;
     }
     
+    /* 모바일 점수판 표시 */
     .score-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      width: 95%;
-      max-width: 500px;
+      width: 500px;
       margin-top: 15px;
     }
     
@@ -246,6 +283,8 @@
 
 <div id="currentTurn"></div>
 
+<!-- 데스크톱: 게임판 + 양쪽 점수판 -->
+
 <div class="container">
   <div id="npcScore">
     <h2>컴퓨터:</h2>
@@ -255,6 +294,8 @@
     <h2>사용자:</h2>
   </div>
 </div>
+
+<!-- 모바일: 게임판 아래 점수판 -->
 
 <div class="score-container">
   <div id="npcScore-mobile">
@@ -267,7 +308,7 @@
 
 <div class="btn-container">
   <button id="retryBtn">재시작</button>
-  <button onclick="alert('홈 기능은 구현되지 않았습니다')">홈으로</button>
+  <button onclick="location.href='index.html'">홈으로</button>
 </div>
 
 <script>
@@ -280,15 +321,45 @@ let resultShown = false;
 let npcTimeoutId = null;
 
 const gameEl = document.getElementById('game');
-const userScoreEl = document.getElementById('userScore');  // 수정: 올바른 ID
-const npcScoreEl = document.getElementById('npcScore');      // 수정: 올바른 ID
+const userScoreEl = document.getElementById('userScore');
+const npcScoreEl = document.getElementById('npcScore');
 const userScoreMobileEl = document.getElementById('userScore-mobile');
 const npcScoreMobileEl = document.getElementById('npcScore-mobile');
-const retryBtn = document.getElementById('retryBtn');
+const retryBtn = document.getElementById('재시작');
 const currentTurnEl = document.getElementById('currentTurn');
 
-// Demo words (실제로는 JSON 파일에서 로드)
-words = ['서울특별시', '부산직할시', '여수밤바다', '목포의눈물', '동백아가씨', '이차선다리'];
+window.onload = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const poolFile = urlParams.get('pool');
+  if (!poolFile) {
+    // 임시로 기본 단어들 설정
+    words = ['서울특별시', '부산직할시', '여수밤바다', '목포의눈물', '동백아가씨', '이차선다리'];
+    init();
+    return;
+  }
+
+  fetch('wordpools/' + poolFile + '.json')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('game-title').textContent = data.title || '게임 제목';
+      const rawText = data.description || '게임 설명';
+      const htmlText = rawText.replace(/\n/g, '<br>');
+      document.getElementById('game-desc').innerHTML = htmlText;
+
+      words = [];
+      for (let length in data.words) {
+        const count = data.wordCount[length] || 0;
+        words.push(...getRandomSample(data.words[length], count));
+      }
+      console.log('총 단어 수:', words.length);
+      console.log('단어 목록:', words);
+      
+      init();
+    })
+    .catch(err => {
+      document.body.innerHTML = '<p>❌ 워드풀 로딩 중 오류 발생: ' + err.message + '</p>';
+    });
+};
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -297,13 +368,20 @@ function shuffle(arr) {
   }
 }
 
+function getRandomSample(arr, count) {
+  if (count >= arr.length) return [...arr];
+  const shuffled = [...arr];
+  shuffle(shuffled);
+  return shuffled.slice(0, count);
+}
+
 function init() {
   board = Array(totalCells).fill(null);
   revealed = Array(totalCells).fill(false);
   wordMap = {};
   foundWords = new Set();
   foundBy = { user: [], npc: [] };
-  currentPlayer = 'user'; // FIXED: consistent player state
+  currentPlayer = 'user';
   usedIndexes = new Set();
   clovers.clear();
   daisies.clear();
@@ -362,7 +440,7 @@ function createGrid() {
   }
 }
 
-function canPlaceWord(word, x, y, dx, dy) {
+ function canPlaceWord(word, x, y, dx, dy) {
   for (let i = 0; i < word.length; i++) {
     let nx = x + dx * i, ny = y + dy * i;
     if (nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize) return false;
@@ -472,6 +550,7 @@ function placeClovers(count) {
     }
     attempts++;
   }
+  console.log('배치된 클로버 수:', clovers.size);
 }
 
 function placeDaisies(count) {
@@ -487,6 +566,7 @@ function placeDaisies(count) {
     }
     attempts++;
   }
+  console.log('배치된 데이지 수:', daisies.size);
 }
 
 function isSafeForSpecial(idx) {
@@ -527,7 +607,7 @@ function reveal(index) {
   
   if (clovers.has(index)) {
     cell.innerHTML = '<span>🍀</span>';
-    cell.classList.add('revealed', 'clover');
+    cell.classList.add('clover');
     const directions = [-gridSize, gridSize, -1, 1];
     for (let d of directions) {
       const newIdx = index + d;
@@ -543,7 +623,7 @@ function reveal(index) {
     }
   } else if (daisies.has(index)) {
     cell.innerHTML = '<span>🌼</span>';
-    cell.classList.add('revealed', 'daisy');
+    cell.classList.add('daisy');
     const x = index % gridSize;
     const y = Math.floor(index / gridSize);
     for (let dy = -1; dy <= 1; dy++) {
@@ -559,8 +639,8 @@ function reveal(index) {
     }
   } else {
     cell.textContent = board[index];
-    cell.classList.add('revealed');
   }
+  cell.classList.add('revealed');
 }
 
 function updateScore() {
@@ -607,16 +687,27 @@ function npcMove() {
   const randomIndex = Math.floor(Math.random() * availableCells.length);
   const selectedCell = availableCells[randomIndex];
   
+  console.log('컴퓨터가 선택한 셀:', selectedCell);
   handleClick(selectedCell, true);
 }
 
-function handleClick(index, isNpcMove = false) {
+function handleClick(index, isnpcMove = false) {
   if (revealed[index] || resultShown) return;
   
-  if (currentPlayer === 'npc' && !isNpcMove) return;
-  if (currentPlayer === 'user' && isNpcMove) return;
+  // NPC 차례일 때 유저 클릭 차단
+  if (currentPlayer === 'npc' && !isnpcMove) {
+    console.log('NPC 차례입니다. 유저 클릭 무시됨');
+    return;
+  }
+  
+  // 유저 차례일 때 NPC 동작 차단
+  if (currentPlayer === 'user' && isnpcMove) {
+    console.log('유저 차례입니다. NPC 동작 무시됨');
+    return;
+  }
 
   const extra = clovers.has(index) || daisies.has(index);
+  console.log(`클릭: 인덱스 ${index}, 플레이어: ${currentPlayer}, 추가턴: ${extra}`);
   
   reveal(index);
   checkWords();
@@ -660,17 +751,17 @@ function checkGameEnd() {
     let winner = '';
     
     if (userWords > npcWords) {
-      winner = '사용자';
+      winner = 'USER WINS!';
     } else if (npcWords > userWords) {
-      winner = '컴퓨터';
+      winner = 'NPC WINS!';
     } else {
-      winner = '무승부';
+      winner = 'DRAW!';
     }
     
-    currentTurnEl.textContent = `게임 종료! ${winner === '무승부' ? winner : winner + ' 승리'}!`;
+    currentTurnEl.textContent = `Game Over! ${winner}승리!`;
     
     setTimeout(() => {
-      alert(`게임 종료!\n\n사용자: ${userWords} 단어\n컴퓨터: ${npcWords} 단어\n\n${winner === '무승부' ? winner : winner + ' 승리'}!`);
+      alert(`게임 종료!\n\n사용자: ${userWords} 단어\n컴퓨터: ${npcWords} 단어\n\n${winner} 승리!`);
     }, 500);
   }
 }
@@ -678,8 +769,6 @@ function checkGameEnd() {
 retryBtn.onclick = () => {
   init();
 };
-
-init();
 </script>
 
 </body>
