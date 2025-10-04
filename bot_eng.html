@@ -440,6 +440,7 @@ function createGrid() {
 cell.onclick = () => { 
   if (!resultShown && currentPlayer === 'user') {
     handleClick(i);
+    gameEl.appendChild(cell);
   }
 }
 function canPlaceWord(word, x, y, dx, dy) {
