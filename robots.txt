@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://worpuzz.vercel.app/sitemap.xml
