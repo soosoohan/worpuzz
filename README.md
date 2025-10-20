@@ -18,9 +18,8 @@ The game will continue to be improved and upgraded.
 ### 📅 개발 타임라인 / Development Timeline
 
 - **2025-05-01**  
-챗GPT의 도움으로 코딩을 몰라도 게임을 만들 수 있다는 희망을 가지고 개발 시작.  
-오랫동안 생각만 했던 아이디어를 직접 구현해보기로 결심함.  
-Began development with the help of ChatGPT, turning a long-held idea into a playable game without needing to code from scratch.
+오랫동안 생각만 했던 아이디어를 직접 구현해보기로 결심하고 게임 개발 시작  
+Decided to turn a long-time idea into reality and began development.
 
 - **2025-05-31**  
 내가 만든 첫번째 컴퓨터 게임 워퍼즈 탄생  
@@ -54,8 +53,9 @@ Redesigned the original game with pastel colors and uploaded it to 'worpuzz'.
 ✅ Playable in both Korean and English!
 
 ---
+워퍼즈 주소 : https://soosooland.com/worpuzz/
 
-## 🌟 Soosooland - Game Demo Hub by Han Soosoo
+## 🌟 Soosooland - Game Hub by Han Soosoo
 
  "Learning through fun, and fun through learning."
 
