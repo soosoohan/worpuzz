@@ -7,33 +7,11 @@ The game will continue to be improved and upgraded.
 
 ---
 
-> 🛡️ **이 게임은 저작권 등록이 완료되었습니다.**  
-> 무단 복제, 무단 이용, 상업적 사용은 법적 책임을 초래할 수 있습니다.  
->  
-> 🛡️ **This game has been officially copyright registered.**  
-> Unauthorized reproduction, use, or commercial distribution may result in legal consequences.  
-
----
-
-### 📅 개발 타임라인 / Development Timeline
-
-- **2025-05-01**  
-오랫동안 생각만 했던 아이디어를 직접 구현해보기로 결심하고 게임 개발 시작  
-Decided to turn a long-time idea into reality and began development.
-
-- **2025-05-31**  
-내가 만든 첫번째 컴퓨터 게임 워퍼즈 탄생  
-The Birth of Worpuzz — My Very First Computer Game  
-워퍼즈는 컴퓨터와 대결하는 형태로 완성 후 'worpuzz-legacy'레포에 업로드.  
-First prototype completed and uploaded to the 'worpuzz-legacy' repository.
-
-- **2025-06-14**  
-두 사용자가 대결하는 형태의 워퍼즈메이트를 만들어 'worpuzzmate'에 업로드함.  
-Created a two-player competitive version of Worpuzz called WorpuzzMate and uploaded it to 'worpuzzmate'.  
-
-- **2025-06-17**  
-컴퓨터와 대결하는 기존 게임을 파스텔 컬러로 리디자인하여 'worpuzz'에 업로드함.  
-Redesigned the original game with pastel colors and uploaded it to 'worpuzz'.
+ 🛡️ **이 게임은 저작권 등록이 완료되었습니다.**  
+ 무단 복제, 무단 이용, 상업적 사용은 법적 책임을 초래할 수 있습니다.  
+  
+ 🛡️ **This game has been officially copyright registered.**  
+ Unauthorized reproduction, use, or commercial distribution may result in legal consequences.  
 
 ---
 
@@ -53,8 +31,10 @@ Redesigned the original game with pastel colors and uploaded it to 'worpuzz'.
 ✅ Playable in both Korean and English!
 
 ---
-워퍼즈 주소 : https://soosooland.com/worpuzz/
 
+##  워퍼즈 주소 : https://soosooland.com/worpuzz/
+
+---
 ## 🌟 Soosooland - Game Hub by Han Soosoo
 
  "Learning through fun, and fun through learning."
