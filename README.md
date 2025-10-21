@@ -35,7 +35,7 @@ The game will continue to be improved and upgraded.
 ##  워퍼즈 주소 : https://soosooland.com/worpuzz/
 
 ---
-## 🌟 Soosooland - Game Hub by Han Soosoo
+## 🌟 Soosooland - Puzzle Game Hub by Han Soosoo
 
  "Learning through fun, and fun through learning."
 
