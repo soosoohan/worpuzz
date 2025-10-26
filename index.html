@@ -141,47 +141,30 @@ margin: 20px auto;
 max-width: 600px;
 font-size: 1.1em;
 }
-
-.square-button {
-            width: 300px;
-            height: 100px;
-            background-color: #FFE8CD; /* 설명 배경: 연한 오렌지 */
-            color: #FF9494;
-            border: none;
-            border-radius: 12px; /* 둥근 모서리 */
-            cursor: pointer;
-            font-size: clamp(1rem, 3vw, 1.3rem);
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            line-height: 1.2;
-            margin: 8px;
-            transition: all 0.3s ease;
-            font-family: Arial, sans-serif;
-        }
-
-    .square-button:hover {
-        background-color: #FF8FAB; /* 호버 시 진한 분홍 */
-        transform: scale(1.05);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 1em;
+        background-color: #FFD6BA;
+        color: #7A2E2E;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 100;
     }
 
-    .square-button:active {
-        transform: scale(0.95);
-    }
-.credits {
-        margin-top: 0px;
-        font-size: 0.9em;
-        color: #A65A5A;
-        background-color: #FFF2EB; /* 전체 배경: 피치 크림톤 */
-        padding: 20px;
-        border-radius: 10px;
+    .back-button:hover {
+        background-color: #FF9494;
+        color: white;
     }
 </style>
 </head>
 <body>
+  <button class="back-button" onclick="location.href='https://soosooland.com/'">
+    Soosooland </button>
   <h1>WORPUZZ  </h1>
   <div class="description">
     컴퓨터와 교대로 격자를 클릭하여 숨겨진 단어를 찾아가는 1인용 워퍼즈 게임입니다.<br>
@@ -225,16 +208,6 @@ font-size: 1.1em;
     <button onclick="startGame('k6', false)">기초 단어</button>
   </div>
 </div>
-<div class="credits">
-        
-<button class="square-button" onclick="location.href='https://soosooland.com'">
-    <div>즐거운 퍼즐, 수수랜드<br>Fun Puzzles, SoosooLand</div>
-</button>
-<p>
-        © 2025 Soosoo Han. All rights reserved.<br>
-        </p>
-    </div>
-
   </div>
   <script>
     function startGame(poolName, isEnglish) {
