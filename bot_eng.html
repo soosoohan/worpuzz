@@ -40,6 +40,25 @@
     margin: 0;
     padding: 10px;
   }
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 10px;      /* 모바일 기본 */
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: #CFF9FF;
+    color: #0A6A79;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+.back-button:hover {
+    background-color: #1baf8f;
+    color: #fff;
+}
 
   h1 {
     font-size: 3em;
@@ -306,6 +325,7 @@
 </head>
 
 <body>
+<button class="back-button"  onclick="location.href='index.html'">←</button>
 <h1 id="game-title">게임 제목</h1>
 <p id="game-desc">게임 설명</p>
 
@@ -331,10 +351,8 @@
     <h2>USER:</h2>
   </div>
 </div>
-
 <div class="btn-container">
   <button id="retryBtn">↻ Restart</button>
-  <button onclick="location.href='index.html'">← Back</button>
 </div>
 
 <script>
