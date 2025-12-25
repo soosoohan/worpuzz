@@ -227,26 +227,17 @@ font-size: 1.1em;
   </div>
 </div>
   </div>
-   <script>
+    <script>
 window.addEventListener('DOMContentLoaded', () => {
     const screenWidth = window.innerWidth;
-// 뒤로가기 대응
-window.addEventListener('pageshow', (event) => {
-    if (event.persisted) { // 캐시에서 복원된 경우
-        const screenWidth = window.innerWidth;
-        if (screenWidth < 560 && !sessionStorage.getItem('fromMini')) {
-            redirectToBreeze();
-        }
-    }
-});
-    
+
     // 화면이 560px 이하일 때 미니로 리다이렉트
     if (screenWidth < 560 && !sessionStorage.getItem('fromMini')) {
-        redirectToBreeze();
+        redirectTomini();
     }
 });
 
-function redirectToBreeze() {
+function redirectTomini() {
     const overlay = document.createElement('div');
     overlay.innerHTML = `
         <div style="
@@ -297,7 +288,6 @@ function redirectToBreeze() {
         window.location.href = 'https://soosooland.com/mini';
     }, 1500);
 }
-
     function startGame(poolName, isEnglish) {
       const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
       location.href = `${page}?pool=${poolName}`;
