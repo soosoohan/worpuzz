@@ -227,7 +227,7 @@ font-size: 1.1em;
   </div>
 </div>
   </div>
-    <script>
+ <script>
 // 처음 방문할 때
 window.addEventListener('DOMContentLoaded', () => {
     const screenWidth = window.innerWidth;
@@ -298,11 +298,12 @@ function redirectTomini() {
         window.location.href = 'https://soosooland.com/worzzle';
     }, 1500);
 }
-    function startGame(poolName, isEnglish) {
-      const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
-      location.href = `${page}?pool=${poolName}`;
-    }
-  </script>
+
+function startGame(poolName, isEnglish) {
+    const page = isEnglish ? 'bot_eng.html' : 'bot_kor.html';
+    location.href = `${page}?pool=${poolName}`;
+}
+</script>
 
 </body>
 </html>
