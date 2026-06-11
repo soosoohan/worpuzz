@@ -5,6 +5,10 @@
   if (window.top !== window.self) {
     window.top.location = "https://soosooland.com";
   }
+   if (window.innerWidth < 600) {
+    window.location.href = 'https://soosooland.com/worzzle';
+  }
+
   console.log("© 2025-2026 Soosooland by 한수수. All rights reserved.");
   console.log("https://soosooland.com");
   console.log("🎮 Worpuzz | Born: 2025-05-31");
@@ -497,9 +501,6 @@ function isNextToSpecial(index) {
   return false;
 }
 window.onload = () => {
-  if (window.innerWidth < 600) {
-    window.location.href = 'https://soosooland.com/worzzle';
-  }
   const urlParams = new URLSearchParams(window.location.search);
   const poolFile = urlParams.get('pool');
   if (!poolFile) {
