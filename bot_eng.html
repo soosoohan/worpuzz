@@ -428,6 +428,9 @@
 </div>
 
 <script>
+  if (window.innerWidth < 600) {
+    window.location.href = 'https://soosooland.com/worzzle';
+  }
 const gridSize = 12;
 const totalCells = gridSize * gridSize;
 let npcDifficulty = 'easy'; // 맨 위 변수 선언부에 추가
@@ -508,9 +511,6 @@ function isNextToSpecial(index) {
   return false;
 }
 window.onload = () => {
-  if (window.innerWidth < 600) {
-    window.location.href = 'https://soosooland.com/worzzle';
-  }
   const urlParams = new URLSearchParams(window.location.search);
   const poolFile = urlParams.get('pool');
   if (!poolFile) {
