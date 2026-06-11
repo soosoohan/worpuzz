@@ -507,9 +507,10 @@ function isNextToSpecial(index) {
   }
   return false;
 }
-
-
 window.onload = () => {
+  if (window.innerWidth < 600) {
+    window.location.href = 'https://soosooland.com/worzzle';
+  }
   const urlParams = new URLSearchParams(window.location.search);
   const poolFile = urlParams.get('pool');
   if (!poolFile) {
