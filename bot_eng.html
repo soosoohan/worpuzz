@@ -861,9 +861,16 @@ function switchTurn(extra) {
 
 function npcMove() {
   if (resultShown) return;
-  
+
+  // 0순위: 마지막 한 글자만 남은 단어는 무조건 확정
+  let almostComplete = findAlmostCompleteWord();
+  if (almostComplete !== null) {
+    handleClick(almostComplete, true);
+    return;
+  }
+
   let selectedCell;
-  
+
   if (npcDifficulty === 'easy') {
     // 쉬움: 완전 랜덤
     const availableCells = [];
