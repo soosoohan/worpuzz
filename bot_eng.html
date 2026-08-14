@@ -858,6 +858,17 @@ function switchTurn(extra) {
     }, 1000);
   }
 }
+function findAlmostCompleteWord() {
+  for (let word of Object.keys(wordMap)) {
+    if (foundWords.has(word)) continue;
+    const pos = wordMap[word].positions;
+    const unrevealed = pos.filter(i => !revealed[i]);
+    if (unrevealed.length === 1) {
+      return unrevealed[0]; // 마지막 한 칸의 인덱스
+    }
+  }
+  return null;
+}
 
 function npcMove() {
   if (resultShown) return;
@@ -870,7 +881,7 @@ function npcMove() {
   }
 
   let selectedCell;
-
+  
   if (npcDifficulty === 'easy') {
     // 쉬움: 완전 랜덤
     const availableCells = [];
