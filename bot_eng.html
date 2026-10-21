@@ -165,7 +165,9 @@
     background-color: #fff;
     font-size: 1.5em;  /* 이것도 함께 추가! */
   }
-  
+  .cell.npc-last {
+  background-color: #FFE94D;
+  }
   .revealed.clover {
     background-color: #fff;
     font-size: 1.5em;
@@ -917,6 +919,11 @@ function npcMove() {
   
   handleClick(selectedCell, true);
 }
+function clearNpcLast() {
+  document.querySelectorAll('.npc-last')
+    .forEach(c => c.classList.remove('npc-last'));
+}
+
 
 function handleClick(index, isnpcMove = false) {
   if (revealed[index] || resultShown) return;
@@ -936,7 +943,13 @@ function handleClick(index, isnpcMove = false) {
   const extra = clovers.has(index) || daisies.has(index);
   console.log(`클릭: 인덱스 ${index}, 플레이어: ${currentPlayer}, 추가턴: ${extra}`);
   
-  reveal(index);
+    reveal(index);
+
+  clearNpcLast();
+  if (isnpcMove) {
+    gameEl.children[index].classList.add('npc-last');
+  }
+
   checkWords();
   checkGameEnd();
 
