@@ -105,13 +105,11 @@ body {
 
   
   .language-toggle {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+        display: flex;
+        margin-right: 20px;
         background: #FFF2EB;
         padding: 8px;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         z-index: 100;
     }
 
@@ -136,17 +134,14 @@ body {
         background: #ff69b4;
     }
 
-
-
-
-  
-h1 {
-font-size: clamp(1.3rem, 3.7vw, 1.9rem);
-color: #FF9494; /* 포인트 핑크 */
-margin-bottom: 20px;
+header {
+  text-align: center;
+  margin: 0 auto 30px;
+  max-width: 800px;
 }
+
 .main-title {
-    margin: 60px 0 20px;
+    margin: 0 0 20px;
     font-size: 0;
 }
 .main-title img {
@@ -241,6 +236,10 @@ margin-top: 30px;
 .hidden {
 display: none;
 }
+header { display: flow-root; height: auto !important; }
+.main-title { height: auto !important; }
+.main-title img { position: static !important; float: none !important; }
+
 @media (max-width: 650px) {
     body {
         padding: 20px 10px; /* 모바일에서 패딩 줄이기 */
@@ -331,17 +330,23 @@ display: none;
 </style>
 </head>
 <body onload="initLanguage()">
- <button class="back-button" onclick="location.href='https://soosooland.com/'" aria-label="수수랜드 홈으로">
+<link rel="stylesheet" href="toolbar.css">
+
+<div class="toolbar">
+  <button class="back-button" onclick="location.href='https://soosooland.com/'" aria-label="수수랜드 홈으로">
   <img src="https://soosooland.com/images/home.png" alt="수수랜드 홈">
 </button>
-   <div class="language-toggle">
-                <button class="language-button active" onclick="toggleLanguage('ko')">한</button>
-                <button class="language-button" onclick="toggleLanguage('en')">EN</button>
-            </div><br>
-     <div class="header">
-     <h1 class="main-title">
+ <div class="language-toggle">
+                <button class="language-button active" onclick="toggleLanguage('ko')">한국어</button>
+                <button class="language-button" onclick="toggleLanguage('en')">English</button>
+            </div>
+  </div> <!-- .toolbar -->
+<header>
+   <h1 class="main-title">
         <img src="https://soosooland.com/worpuzz/banner2.jpeg" alt="워퍼즈 Worpuzz">
-    </h1></div>
+    </h1>
+</header>
+
   <div class="description">
    <div id="korean-description">
     <p style="text-align: left; padding-left: 20px;">
